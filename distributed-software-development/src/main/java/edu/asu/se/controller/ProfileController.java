@@ -14,7 +14,6 @@ public class ProfileController {
 		model.addObject("title", "Profile Page");
 		model.addObject("message", "Welcome Home");
 		model.setViewName("profile");
-
 		return model;
 	}
 }
