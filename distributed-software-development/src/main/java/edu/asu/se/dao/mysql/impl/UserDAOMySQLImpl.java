@@ -10,6 +10,7 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import edu.asu.se.dao.UserDAO;
+import edu.asu.se.model.GitProjectDetails;
 import edu.asu.se.model.User;
 
 /*@Repository*/
@@ -49,5 +50,11 @@ public class UserDAOMySQLImpl implements UserDAO {
 				}
 			}
 		}
+	}
+
+	@Override
+	public GitProjectDetails getProjectDetails(String userName) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

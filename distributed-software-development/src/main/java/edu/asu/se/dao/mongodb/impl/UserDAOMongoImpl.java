@@ -7,6 +7,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
 import edu.asu.se.dao.UserDAO;
+import edu.asu.se.model.GitProjectDetails;
 import edu.asu.se.model.User;
 
 @Repository
@@ -14,6 +15,7 @@ public class UserDAOMongoImpl implements UserDAO {
 
 	@Autowired
 	MongoTemplate mongoTemplate;
+	
 
 	private static final String USER_COLLECTION = "users";
 
@@ -21,6 +23,12 @@ public class UserDAOMongoImpl implements UserDAO {
 	public User findUserByName(String userName) {
 		Query query = new Query(Criteria.where("username").is(userName));
 		return mongoTemplate.findOne(query, User.class, USER_COLLECTION);
+	}
+
+	@Override
+	public GitProjectDetails getProjectDetails(String userName) {
+		Query query = new Query(Criteria.where("userName").is(userName));
+		return mongoTemplate.findOne(query, GitProjectDetails.class, USER_COLLECTION);
 	}
 
 }

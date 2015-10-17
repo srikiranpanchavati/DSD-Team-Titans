@@ -1,14 +1,12 @@
 package edu.asu.se.controller;
 
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+
+import edu.asu.se.common.CommonInfo;
 
 @Controller
 public class AuthController {
@@ -37,13 +35,10 @@ public class AuthController {
 		ModelAndView model = new ModelAndView();
 
 		// check if user is login
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		if (!(auth instanceof AnonymousAuthenticationToken)) {
-			UserDetails userDetail = (UserDetails) auth.getPrincipal();
-			System.out.println(userDetail);
 
-			model.addObject("username", userDetail.getUsername());
-
+		String userName = CommonInfo.getUserName();
+		if (userName != null) {
+			model.addObject("username", userName);
 		}
 
 		model.setViewName("403");

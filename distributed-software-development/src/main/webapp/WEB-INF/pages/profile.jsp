@@ -96,6 +96,12 @@ $(document).ready(function(){
 					      </tr>
 					    </thead>					    
 					    <tbody>
+					    	<tr>
+					    		<td>${projectDetails.projectName}</td>
+					    		<td>${projectDetails.projectURL}</td>
+					    		<td>${projectDetails.branch}</td>
+					    		<td><a class="page-scroll" href="#userstats" id="${projectDetails.projectURL}">View Statistics</a></td>
+					    	</tr>
 					    </tbody>					      
 				  	</table>
 				  	<hr class="light">
