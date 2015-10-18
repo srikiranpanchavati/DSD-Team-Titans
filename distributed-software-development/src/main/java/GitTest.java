@@ -23,8 +23,8 @@ public class GitTest {
 				logs = git.log().add(repository.resolve("remotes/origin/development")).call();
 				count = 0;
 				for (RevCommit rev : logs) {
-					System.out
-							.println("Development, Commit: " + rev + ", name: dddddddddddddddd" + rev.getAuthorIdent().getName() + ", id: " + rev.getCommitTime());
+					System.out.println("Development, Commit: " + rev + ", name: dddddddddddddddd"
+							+ rev.getAuthorIdent().getName() + ", id: " + rev.getCommitTime());
 					count++;
 				}
 				System.out.println("Had " + count + " commits overall on test-branch");
@@ -56,9 +56,9 @@ public class GitTest {
 						.addPath("distributed-software-development/pom.xml").call();
 				count = 0;
 				for (RevCommit rev : logs) {
-					System.out.println("Commit: " + rev  + ", name: " +
-					rev.getAuthorIdent().getEmailAddress() + ", id: " + rev.getId().getName() +"time: " + rev.getCommitTime());
-					
+					System.out.println("Commit: " + rev + ", name: " + rev.getAuthorIdent().getEmailAddress() + ", id: "
+							+ rev.getId().getName() + "time: " + rev.getCommitTime());
+
 					count++;
 				}
 				System.out.println("Had " + count + " commits on pom.xml");
@@ -70,9 +70,15 @@ public class GitTest {
 		FileRepositoryBuilder builder = new FileRepositoryBuilder();
 		Repository repository = builder.readEnvironment() // scan environment
 															// GIT_* variables
-				.setGitDir(new File("G:\\project515\\GITRepo\\DSD-Team-Titans\\.git")) // scan up the file system tree
+				.setGitDir(new File("G:\\project515\\GITRepo\\DSD-Team-Titans\\.git")) // scan
+																						// up
+																						// the
+																						// file
+																						// system
+																						// tree
 				.build();
 		System.out.println(repository.getDirectory());
 		return repository;
+
 	}
 }
