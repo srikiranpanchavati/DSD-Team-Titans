@@ -21,24 +21,25 @@ public class ProfileController {
 
 	@RequestMapping(value = "/profile**", method = RequestMethod.GET)
 	public ModelAndView profile() {
-
-		ModelAndView model = new ModelAndView();
-		List<GitProjectDetails> projectDetails = userDAO.getProjectDetails(CommonInfo.getUserName());
-		model.addObject("projectDetails", projectDetails);
-		model.setViewName("profile");
-		return model;
+		return getProfileDetails(null);
 	}
 
 	@RequestMapping(value = "/profile**", method = RequestMethod.POST)
 	public ModelAndView profileUpdate(@ModelAttribute GitProjectDetails projectDetails) {
 
-		userDAO.insertProjectDetails(projectDetails);
+		return getProfileDetails(projectDetails);
+
+	}
+
+	public ModelAndView getProfileDetails(GitProjectDetails projectDetails) {
+		if (projectDetails != null) {
+			userDAO.insertProjectDetails(projectDetails);
+		}
 		ModelAndView model = new ModelAndView();
 		List<GitProjectDetails> projectDetailsList = userDAO.getProjectDetails(CommonInfo.getUserName());
 		model.addObject("projectDetails", projectDetailsList);
 		model.setViewName("profile");
 		return model;
-
 	}
 
 }

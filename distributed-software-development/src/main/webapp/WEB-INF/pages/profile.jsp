@@ -118,12 +118,14 @@ $(document).ready(function(){
 					    </thead>					    
 					    <tbody>
 					    <c:forEach var="details" items="${projectDetails}">
-					    	<tr>
-					    		<td>${details.projectName}</td>
-					    		<td>${details.projectURL}</td>
-					    		<td>${details.branch}</td>
-					    		<td><a class="page-scroll" href="#userstats" id="${details.projectURL}">View Statistics</a></td>
-					    	</tr>
+					    	<c:if test="${details.projectName != null}" >
+					    		<tr>
+						    		<td>${details.projectName}</td>
+						    		<td><a target="_blank" href="${details.projectURL}">${details.projectURL}</a></td>
+						    		<td>${details.branch}</td>
+						    		<td><a class="page-scroll" href="#userstats" id="${details.projectURL}">View Statistics</a></td>
+					    		</tr>
+					    	</c:if>
 					    </c:forEach>
 					    </tbody>					      
 				  	</table>
