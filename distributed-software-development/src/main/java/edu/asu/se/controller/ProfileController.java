@@ -1,5 +1,7 @@
 package edu.asu.se.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -18,16 +20,25 @@ public class ProfileController {
 	UserDAO userDAO;
 
 	@RequestMapping(value = "/profile**", method = RequestMethod.GET)
-	public ModelAndView profile(@ModelAttribute GitProjectDetails projectDetails) {
+	public ModelAndView profile() {
 
 		ModelAndView model = new ModelAndView();
-		projectDetails = userDAO.getProjectDetails(CommonInfo.getUserName());
+		List<GitProjectDetails> projectDetails = userDAO.getProjectDetails(CommonInfo.getUserName());
 		model.addObject("projectDetails", projectDetails);
-		/*model.addObject("projectName", projectDetails.getProjectName());
-		model.addObject("projectURL", projectDetails.getProjectURL());
-		model.addObject("branch", projectDetails.getBranch());*/
 		model.setViewName("profile");
 		return model;
+	}
+
+	@RequestMapping(value = "/profile**", method = RequestMethod.POST)
+	public ModelAndView profileUpdate(@ModelAttribute GitProjectDetails projectDetails) {
+
+		userDAO.insertProjectDetails(projectDetails);
+		ModelAndView model = new ModelAndView();
+		List<GitProjectDetails> projectDetailsList = userDAO.getProjectDetails(CommonInfo.getUserName());
+		model.addObject("projectDetails", projectDetailsList);
+		model.setViewName("profile");
+		return model;
+
 	}
 
 }
