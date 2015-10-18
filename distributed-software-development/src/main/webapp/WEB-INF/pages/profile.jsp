@@ -134,7 +134,7 @@ $(document).ready(function(){
   							<input type="hidden" class="form-control" name="${_csrf.parameterName}"
 							value="${_csrf.token}" />
   							<label for="proname">Project Name: </label>
-  							<input type="hidden" class="form-control" name="userName" value="${pageContext.request.userPrincipal.name}">
+  							<input type="hidden" class="form-control" name="username" value="${pageContext.request.userPrincipal.name}">
   							<input type="text" class="form-control" name="projectName" placeholder="Sample Project">  							
   							<label for="proname">Branch Name: </label>
   							<input type="text" class="form-control" name="branch" placeholder="master">
