@@ -70,6 +70,9 @@ $(document).ready(function(){
 	function formSubmit() {
 		document.getElementById("logoutForm").submit();
 	}
+	function viewStatistics() {
+		document.getElementById("viewStatisticsForm").submit();
+	}
 </script>
 </head>
 <body id="top">
@@ -106,29 +109,31 @@ $(document).ready(function(){
             <div class="row">
                 <div class="col-lg-12 col-md-6 text-center">
                     <h3 class="section-heading text-center">My Github Projects</h3>
-                    <hr class="light">                    
-                    <table class="table table-hover" id="urltable">
-				    	<thead>
-					      <tr>
-					        <th>Project Name</th>
-					        <th>Git Hub URL</th>
-							<th>branch Name</th>
-					        <th>Statistics</th>
-					      </tr>
-					    </thead>					    
-					    <tbody>
-					    <c:forEach var="details" items="${projectDetails}">
-					    	<c:if test="${details.projectName != null}" >
-					    		<tr>
-						    		<td>${details.projectName}</td>
-						    		<td><a target="_blank" href="${details.projectURL}">${details.projectURL}</a></td>
-						    		<td>${details.branch}</td>
-						    		<td><a class="page-scroll" href="#userstats" id="${details.projectURL}">View Statistics</a></td>
-					    		</tr>
-					    	</c:if>
-					    </c:forEach>
-					    </tbody>					      
-				  	</table>
+                    <hr class="light"> 
+                    <form action="<c:url value='/statistics'/>" method="get" id="viewStatisticsForm">                   
+	                    <table class="table table-hover" id="urltable">
+					    	<thead>
+						      <tr>
+						        <th>Project Name</th>
+						        <th>Git Hub URL</th>
+								<th>branch Name</th>
+						        <th>Statistics</th>
+						      </tr>
+						    </thead>					    
+						    <tbody>
+						    <c:forEach var="details" items="${projectDetails}">
+						    	<c:if test="${details.projectName != null}" >
+						    		<tr>
+							    		<td>${details.projectName}</td>
+							    		<td><a target="_blank" href="${details.projectURL}">${details.projectURL}</a></td>
+							    		<td>${details.branch}</td>
+							    		<td><a href="javascript:viewStatistics()" id="${details.projectURL}">View Statistics</a></td>
+						    		</tr>
+						    	</c:if>
+						    </c:forEach>
+						    </tbody>					      
+					  	</table>
+				  	</form>
 				  	<hr class="light">
 				  	<h4>Add a new project here:</h4>
                     <form class="form-inline" method = "post" action="<c:url value='/profile' />" id = "projectUpdate">

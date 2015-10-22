@@ -42,7 +42,7 @@
 						<a class="page-scroll" href="#filestats">File Statistics</a>
 					</li>
 					<li>
-						<a class="page-scroll" href="#buildstats">Build Statistics</a>
+						<a class="page-scroll" href="#buildstats">Code Statistics</a>
 					</li>											
 				</ul>
 				<ul class="nav navbar-nav navbar-right">					
@@ -76,28 +76,34 @@
 					    </thead>					    
 					    <tbody>
 					    	<tr>
-						        <td>build1</td>
-						        <td>user1</td>
-						        <td>1234</td>
-						        <td>2</td>					        
+						        <td>Kiran</td>
+						        <td>23</td>
+						        <td>32.0 Hrs</td>
+						        <td>22-Sep-2015</td>					        
 					      	</tr>
 					      	<tr>
-						        <td>build2</td>
-						        <td>user2</td>
-						        <td>1235</td>
-						        <td>2</td>				        
+						        <td>Supraj</td>
+						        <td>20</td>
+						        <td>32.0 hrs</td>
+						        <td>22-Sep-2015</td>				        
 					      	</tr>
 					      	<tr>
-						        <td>build3</td>
-						        <td>user3</td>
-						        <td>1212</td>
-						        <td>4</td>				        
+						        <td>Rathnakar</td>
+						        <td>18</td>
+						        <td>30.04 Hrs</td>
+						        <td>23-Sep-2015</td>				        
 					      	</tr>
 					      	<tr>
-						        <td>build4</td>
-						        <td>user4</td>
-						        <td>1211</td>
-						        <td>5</td>				        
+						        <td>Yoga</td>
+						        <td>18</td>
+						        <td>30.0 Hrs</td>
+						        <td>23-Sep-2015</td>				        
+					      	</tr>
+					      	<tr>
+						        <td>Nithya</td>
+						        <td>18</td>
+						        <td>30.0 Hrs</td>
+						        <td>23-Sep-2015</td>				        
 					      	</tr>
 					    </tbody>					      
 				  	</table>
@@ -139,37 +145,32 @@
 					        <th>Online Time</th>
 					        <th>Duration of work</th>
 					        <th>Commits made</th>
-					        <th>Task Associated</th>
 					      </tr>
 					    </thead>					    
 					    <tbody>
 					    	<tr>
-						        <td>build1</td>
-						        <td>user1</td>
-						        <td>1234</td>
-						        <td>2</td>
-						        <td>0</td>					        
+						        <td>Rathnakar</td>
+						        <td>10 hrs</td>
+						        <td>25 hrs</td>
+						        <td>9</td>				        
 					      	</tr>
 					      	<tr>
-						        <td>build2</td>
-						        <td>user2</td>
-						        <td>1235</td>
-						        <td>2</td>
-						        <td>0</td>					        
+						        <td>Yoga</td>
+						        <td>8 hrs</td>
+						        <td>18 hrs</td>
+						        <td>8</td>				        
 					      	</tr>
 					      	<tr>
-						        <td>build3</td>
-						        <td>user3</td>
-						        <td>1212</td>
-						        <td>4</td>
-						        <td>0</td>					        
+						        <td>Nithya</td>
+						        <td>9 hrs</td>
+						        <td>19 hrs</td>
+						        <td>7</td>					        
 					      	</tr>
 					      	<tr>
-						        <td>build4</td>
-						        <td>user4</td>
-						        <td>1211</td>
-						        <td>5</td>
-						        <td>0</td>					        
+						        <td>Supraj</td>
+						        <td>10 hrs</td>
+						        <td>20 hrs</td>
+						        <td>9</td>				        
 					      	</tr>
 					    </tbody>					      
 				  	</table>
@@ -182,12 +183,12 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 col-md-6 text-center">
-                    <h3 class="section-heading text-center">Build Statistics</h3>
+                    <h3 class="section-heading text-center">Code Statistics</h3>
                     <hr class="light">                    
                     <table class="table table-hover" id="buildtable">
 				    	<thead>
 					      <tr>
-					        <th>Build Name</th>
+					        <th>Build Number</th>
 					        <th>Triggered By</th>
 					        <th>Lines of Code changed</th>
 					        <th>Build Errors</th>
@@ -197,30 +198,23 @@
 					    <tbody>
 					    	<tr>
 						        <td>build1</td>
-						        <td>user1</td>
-						        <td>1234</td>
-						        <td>2</td>
-						        <td>0</td>					        
+						        <td>Nithya</td>
+						        <td>323</td>
+						        <td>1</td>
+						        <td>1</td>					        
 					      	</tr>
 					      	<tr>
 						        <td>build2</td>
-						        <td>user2</td>
-						        <td>1235</td>
-						        <td>2</td>
+						        <td>Supraj</td>
+						        <td>534</td>
+						        <td>0</td>
 						        <td>0</td>					        
 					      	</tr>
 					      	<tr>
 						        <td>build3</td>
-						        <td>user3</td>
-						        <td>1212</td>
-						        <td>4</td>
-						        <td>0</td>					        
-					      	</tr>
-					      	<tr>
-						        <td>build4</td>
-						        <td>user4</td>
-						        <td>1211</td>
-						        <td>5</td>
+						        <td>Kiran</td>
+						        <td>320</td>
+						        <td>0</td>
 						        <td>0</td>					        
 					      	</tr>
 					    </tbody>					      
