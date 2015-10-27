@@ -4,23 +4,29 @@
 <%@ page isELIgnored="false"%>
 <html>
 <head>
+
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
 <title>Distributed Software Development</title>
+
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+
 <style>
   body {
     padding-top: 50px;
   }
- </style>
- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+</style>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 <script>
 	function formSubmit() {
 		document.getElementById("logoutForm").submit();
 	}
 </script>
+
 </head>
 <body id="body">
 	<nav class="navbar navbar-default navbar-fixed-top">
@@ -33,6 +39,8 @@
                 </button>
                 <a class="navbar-brand page-scroll" href="#body">DSD TeamTitans</a>
             </div>
+            
+            <!-- Panel options -->
             <div class="collapse navbar-collapse" id="">
             	<ul class="nav navbar-nav">
 					<li>
@@ -55,10 +63,12 @@
             </div>			
 		</div>
 	</nav>
+	<!-- Logout -->
 	<form action="${logoutUrl}" method="post" id="logoutForm">
 		<input type="hidden" name="${_csrf.parameterName}"
 			value="${_csrf.token}" />
 	</form>
+	<!-- User Stats Panel -->
 	<section  id="userstats" style ='background-color: #FFFFFF'>
         <div class="container">
             <div class="row">
@@ -111,7 +121,7 @@
             </div>
         </div>
     </section>
-    
+    <!-- File Stats Panel -->
     <section  id="filestats" style ='background-color: #EFFBFB'>
         <div class="container">
             <div class="row">
@@ -178,7 +188,7 @@
 			</div>
         </div>
     </section>
-    
+    <!-- Code Stats Panel -->
     <section  id="buildstats" style ='background-color: #FFFFFF;'>
         <div class="container">
             <div class="row">
