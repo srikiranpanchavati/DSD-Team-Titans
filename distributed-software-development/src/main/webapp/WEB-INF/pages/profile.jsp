@@ -3,79 +3,88 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page isELIgnored="false"%>
 <html>
+
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Distributed Software Development</title>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
-<style>
-  body {
-    padding-top: 50px;
-  }
- </style>
- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-<script> 
-$(document).ready(function(){
-	$('#submit').click(function () {
-		var name = $('input[name=projectName]').val();
-		var bname = $('input[name=branchName]').val();
-		var url = $('input[name=giturl]').val();
-		var projectData = $(this).closest('form');
-        var project= projectData.serializeObject();
-		$.ajax({
-            'type': 'POST',
-                'url':"profile",
-                'contentType': 'application/json',
-                'data': JSON.stringify(project),
-                'dataType': 'json',
-                success: function(data) {
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		
+		<title>Distributed Software Development</title>
+		
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+		
+		<style>
+  		body {
+    		padding-top: 50px;
+  		}
+ 		</style>
+		
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+		<!-- Script for posting values from form -->
+		<script> 
+		$(document).ready(function(){
+			$('#submit').click(function () {
+				var name = $('input[name=projectName]').val();
+				var bname = $('input[name=branchName]').val();
+				var url = $('input[name=giturl]').val();
+				var projectData = $(this).closest('form');
+        		var project= projectData.serializeObject();
+				$.ajax({
+            		'type': 'POST',
+                	'url':"profile",
+                	'contentType': 'application/json',
+                	'data': JSON.stringify(project),
+                	'dataType': 'json',
+                	success: function(data) {
 
-                if (data == 'SUCCESS')
-                {
-                	var tr = "<tr><td>"+name+"</td><td>"+url+"</td><td><a class=\"page-scroll\" href=\"#userstats\" id=\""+url+"\">View Statistics</a></td><td>"+bname+"</td></tr>";
-            		$('#urltable > tbody:last').append(tr);
-                }
-                else
-                    {
-                    alert(data);
-                    }
+                		if (data == 'SUCCESS')
+                		{
+                			var tr = "<tr><td>"+name+"</td><td>"+url+"</td><td><a class=\"page-scroll\" href=\"#userstats\" id=\""+url+"\">View Statistics</a></td><td>"+bname+"</td></tr>";
+            				$('#urltable > tbody:last').append(tr);
+                		}
+                		else
+                    	{
+                    		alert(data);
+                    	}
 
-                }
-            });
-		var name = $('input[name=projectname]').val("");
-		var bname = $('input[name=branchname]').val("");
-		var url = $('input[name=giturl]').val("");
-	});
+                	}
+	            });
+				var name = $('input[name=projectname]').val("");
+				var bname = $('input[name=branchname]').val("");
+				var url = $('input[name=giturl]').val("");
+		});
 	
-	$.fn.serializeObject = function() {
-	    var o = {};
-	    var a = this.serializeArray();
-	    $.each(a, function() {
-	        if (o[this.name]) {
-	            if (!o[this.name].push) {
-	                o[this.name] = [o[this.name]];
-	            }
-	            o[this.name].push(this.value || '');
-	        } else {
-	            o[this.name] = this.value || '';
-	        }
-	    });
-	    return o;
-	};
-});
-</script>
-<script>
+		$.fn.serializeObject = function() {
+		    var o = {};
+		    var a = this.serializeArray();
+		    $.each(a, function() {
+		        if (o[this.name]) {
+	    	        if (!o[this.name].push) {
+	        	        o[this.name] = [o[this.name]];
+	            	}
+	            	o[this.name].push(this.value || '');
+	        	} 
+		        else {
+	            	o[this.name] = this.value || '';
+	        	}
+	    	});
+	    	return o;
+		};
+	});
+	</script>
+	<!-- Scripts for Tabs(Logout and View Statistics) -->
+	<script>
 	function formSubmit() {
 		document.getElementById("logoutForm").submit();
 	}
 	function viewStatistics() {
 		document.getElementById("viewStatisticsForm").submit();
 	}
-</script>
+	</script>
 </head>
 <body id="top">
+	<!-- Navigation Bar -->
 	<nav class="navbar navbar-default navbar-fixed-top">
 		<div class="container-fluid">
 			 <div class="navbar-header">
@@ -99,11 +108,13 @@ $(document).ready(function(){
 		</div>
 	</nav>
 	
+	<!-- Logout -->
 	<form action="${logoutUrl}" method="post" id="logoutForm">
 		<input type="hidden" name="${_csrf.parameterName}"
 			value="${_csrf.token}" />
 	</form>
 	
+	<!-- Github Projects -->
 	<section  id="links" style ='background-color: #EFFBFB'>
         <div class="container">
             <div class="row">
@@ -134,6 +145,8 @@ $(document).ready(function(){
 						    </tbody>					      
 					  	</table>
 				  	</form>
+				  	
+				  	<!-- Addition of Projects -->
 				  	<hr class="light">
 				  	<h4>Add a new project here:</h4>
                     <form class="form-inline" method = "post" action="<c:url value='/profile' />" id = "projectUpdate">
