@@ -18,6 +18,7 @@
 	<link href="css/css-page.css" rel="stylesheet" />
 </head>
 <body style='background-color: #FFBB90'>
+	<!-- Registration Container -->
     <div class="container">
 		<div class = "row-fluid" >			
 			<form class = "form-horizontal">				
@@ -31,7 +32,8 @@
 					<div class="col-md-4">
 						<input type="text" class="form-control" id="Last Name" placeholder="Enter Last name" />
 					</div>					
-				</div>				
+				</div>
+								
 				<label for= "Email-Id" class="control-label">Email-Id:</label>
 				<br/>
                 <div class="row padding-top-10">
@@ -40,6 +42,7 @@
 						<br/>
                     </div>
                 </div>
+                
 				<label for= "Password" class="control-label">Password:</label>
 				<br/>
                 <div class="row">
@@ -48,6 +51,7 @@
 						<br/>
                     </div>
                 </div>
+                
 				<label for= "Confirm Password" class="control-label">Confirm Password:</label>
 				<br/>
                 <div class="row">
