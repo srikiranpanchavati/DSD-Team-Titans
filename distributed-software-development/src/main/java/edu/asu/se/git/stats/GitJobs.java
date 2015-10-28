@@ -4,4 +4,7 @@ public interface GitJobs {
 	public void cloneRepo(String repoURL);
 
 	public void updateRepo(String repoURL);
+	
+	public void pullGitLog(String logpath);
+	
 }
