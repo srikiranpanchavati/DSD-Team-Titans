@@ -11,11 +11,14 @@ import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
 
 import com.mongodb.MongoClient;
 
+<<<<<<< HEAD
+=======
 /**
  * 
  * This class is used to establish a connection to the mongoDB database.
  *
  */
+>>>>>>> master
 @Configuration
 @PropertySource("classpath:mongo-${env}.properties")
 public class MongoDBConfig {
@@ -26,9 +29,13 @@ public class MongoDBConfig {
 
 	@Bean
 	public MongoDbFactory getMongoDbFactory() throws Exception {
+<<<<<<< HEAD
+		return new SimpleMongoDbFactory(new MongoClient(env.getProperty("host"), env.getProperty("port",Integer.class)), env.getProperty("dbName"));
+=======
 		return new SimpleMongoDbFactory(
 				new MongoClient(env.getProperty("host"), env.getProperty("port", Integer.class)),
 				env.getProperty("dbName"));
+>>>>>>> master
 	}
 
 	@Bean

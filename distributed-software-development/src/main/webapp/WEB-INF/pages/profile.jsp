@@ -3,6 +3,78 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page isELIgnored="false"%>
 <html>
+<<<<<<< HEAD
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Distributed Software Development</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+<style>
+  body {
+    padding-top: 50px;
+  }
+ </style>
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<script> 
+$(document).ready(function(){
+	$('#submit').click(function () {
+		var name = $('input[name=projectName]').val();
+		var bname = $('input[name=branchName]').val();
+		var url = $('input[name=giturl]').val();
+		var projectData = $(this).closest('form');
+        var project= projectData.serializeObject();
+		$.ajax({
+            'type': 'POST',
+                'url':"profile",
+                'contentType': 'application/json',
+                'data': JSON.stringify(project),
+                'dataType': 'json',
+                success: function(data) {
+
+                if (data == 'SUCCESS')
+                {
+                	var tr = "<tr><td>"+name+"</td><td>"+url+"</td><td><a class=\"page-scroll\" href=\"#userstats\" id=\""+url+"\">View Statistics</a></td><td>"+bname+"</td></tr>";
+            		$('#urltable > tbody:last').append(tr);
+                }
+                else
+                    {
+                    alert(data);
+                    }
+
+                }
+            });
+		var name = $('input[name=projectname]').val("");
+		var bname = $('input[name=branchname]').val("");
+		var url = $('input[name=giturl]').val("");
+	});
+	
+	$.fn.serializeObject = function() {
+	    var o = {};
+	    var a = this.serializeArray();
+	    $.each(a, function() {
+	        if (o[this.name]) {
+	            if (!o[this.name].push) {
+	                o[this.name] = [o[this.name]];
+	            }
+	            o[this.name].push(this.value || '');
+	        } else {
+	            o[this.name] = this.value || '';
+	        }
+	    });
+	    return o;
+	};
+});
+</script>
+<script>
+	function formSubmit() {
+		document.getElementById("logoutForm").submit();
+	}
+</script>
+</head>
+<body id="top">
+=======
 
 <head>
 		<meta charset="utf-8">
@@ -85,6 +157,7 @@
 </head>
 <body id="top">
 	<!-- Navigation Bar -->
+>>>>>>> master
 	<nav class="navbar navbar-default navbar-fixed-top">
 		<div class="container-fluid">
 			 <div class="navbar-header">
@@ -108,18 +181,47 @@
 		</div>
 	</nav>
 	
+<<<<<<< HEAD
+=======
 	<!-- Logout -->
+>>>>>>> master
 	<form action="${logoutUrl}" method="post" id="logoutForm">
 		<input type="hidden" name="${_csrf.parameterName}"
 			value="${_csrf.token}" />
 	</form>
 	
+<<<<<<< HEAD
+=======
 	<!-- Github Projects -->
+>>>>>>> master
 	<section  id="links" style ='background-color: #EFFBFB'>
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 col-md-6 text-center">
                     <h3 class="section-heading text-center">My Github Projects</h3>
+<<<<<<< HEAD
+                    <hr class="light">                    
+                    <table class="table table-hover" id="urltable">
+				    	<thead>
+					      <tr>
+					        <th>Project Name</th>
+					        <th>Git Hub URL</th>
+							<th>branch Name</th>
+					        <th>Statistics</th>
+					      </tr>
+					    </thead>					    
+					    <tbody>
+					    <c:forEach var="details" items="${projectDetails}">
+					    	<tr>
+					    		<td>${details.projectName}</td>
+					    		<td>${details.projectURL}</td>
+					    		<td>${details.branch}</td>
+					    		<td><a class="page-scroll" href="#userstats" id="${details.projectURL}">View Statistics</a></td>
+					    	</tr>
+					    </c:forEach>
+					    </tbody>					      
+				  	</table>
+=======
                     <hr class="light"> 
                     <form action="<c:url value='/statistics'/>" method="get" id="viewStatisticsForm">                   
 	                    <table class="table table-hover" id="urltable">
@@ -147,6 +249,7 @@
 				  	</form>
 				  	
 				  	<!-- Addition of Projects -->
+>>>>>>> master
 				  	<hr class="light">
 				  	<h4>Add a new project here:</h4>
                     <form class="form-inline" method = "post" action="<c:url value='/profile' />" id = "projectUpdate">
@@ -154,7 +257,11 @@
   							<input type="hidden" class="form-control" name="${_csrf.parameterName}"
 							value="${_csrf.token}" />
   							<label for="proname">Project Name: </label>
+<<<<<<< HEAD
+  							<input type="hidden" class="form-control" name="userName" value="${pageContext.request.userPrincipal.name}">
+=======
   							<input type="hidden" class="form-control" name="username" value="${pageContext.request.userPrincipal.name}">
+>>>>>>> master
   							<input type="text" class="form-control" name="projectName" placeholder="Sample Project">  							
   							<label for="proname">Branch Name: </label>
   							<input type="text" class="form-control" name="branch" placeholder="master">
