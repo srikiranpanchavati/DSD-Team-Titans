@@ -127,6 +127,9 @@
 			<version>4.1.0.201509280440-r</version>
 		</dependency>		
 	</dependencies>
+<<<<<<< HEAD
 	<!-- Remove -->
+=======
+>>>>>>> master
 		
 </project>

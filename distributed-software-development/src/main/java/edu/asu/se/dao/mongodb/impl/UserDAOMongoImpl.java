@@ -28,7 +28,11 @@ public class UserDAOMongoImpl implements UserDAO {
 
 	@Override
 	public List<GitProjectDetails> getProjectDetails(String userName) {
+<<<<<<< HEAD
 		Query query = new Query(Criteria.where("userName").is(userName));
+=======
+		Query query = new Query(Criteria.where("username").is(userName));
+>>>>>>> master
 		return mongoTemplate.find(query, GitProjectDetails.class, USER_COLLECTION);
 	}
 
