@@ -4,10 +4,7 @@
 <body>
 	<h1>HTTP Status 403 - Access is denied</h1>
 
-<<<<<<< HEAD
-=======
 	<!-- Permission Denied Message -->
->>>>>>> master
 	<c:choose>
 		<c:when test="${empty username}">
 			<h2>You do not have permission to access this page!</h2>
