@@ -15,7 +15,7 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-	<link href="css/css-page.css" rel="stylesheet" />
+	<link href="css/register.css" rel="stylesheet" />
 </head>
 <body style='background-color: #FFBB90'>
 	<!-- Registration Container -->
