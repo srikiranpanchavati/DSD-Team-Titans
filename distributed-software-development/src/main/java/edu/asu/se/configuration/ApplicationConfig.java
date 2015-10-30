@@ -7,29 +7,23 @@ import org.springframework.context.annotation.Import;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
-<<<<<<< HEAD
-=======
 /**
  * 
  * This is the default class that will load all the spring related
  * configurations.
  *
  */
->>>>>>> master
 @EnableWebMvc
 @Configuration
 @ComponentScan({ "edu.asu.se.*" })
 @Import({ SecurityConfig.class, MongoDBConfig.class })
 public class ApplicationConfig {
 
-<<<<<<< HEAD
-=======
 	/**
 	 * This method will resolve the resource path to the views.
 	 * 
 	 * @return the InternalResourceViewResolver object
 	 */
->>>>>>> master
 	@Bean
 	public InternalResourceViewResolver getViewResolver() {
 		InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
