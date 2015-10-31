@@ -37,7 +37,6 @@
                 	'data': JSON.stringify(project),
                 	'dataType': 'json',
                 	success: function(data) {
-
                 		if (data == 'SUCCESS')
                 		{
                 			var tr = "<tr><td>"+name+"</td><td>"+url+"</td><td><a class=\"page-scroll\" href=\"#userstats\" id=\""+url+"\">View Statistics</a></td><td>"+bname+"</td></tr>";
@@ -47,7 +46,6 @@
                     	{
                     		alert(data);
                     	}
-
                 	}
 	            });
 				var name = $('input[name=projectname]').val("");

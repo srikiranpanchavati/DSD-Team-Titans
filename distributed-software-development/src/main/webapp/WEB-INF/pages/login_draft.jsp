@@ -1,6 +1,3 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ page isELIgnored="false" %>
-<%@page session="true"%>
 <html>
 <head>
 <title>Login Page</title>
@@ -71,7 +68,7 @@
 				
 				<tr>
 					<td colspan='2'><input name="submit" type="submit"
-						value="submit" /></td>
+						value="Submit" /></td>
 				</tr>
 				
 			</table>
@@ -80,8 +77,6 @@
 				value="${_csrf.token}" />
 
 		</form>
-		
-		<!-- Registration Form -->
 		<form name='registerForm'
 			action="register"  id="register">
 
