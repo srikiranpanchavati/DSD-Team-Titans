@@ -80,6 +80,16 @@
 				value="${_csrf.token}" />
 
 		</form>
+		
+		<!-- Registration Form -->
+		<form name='registerForm'
+			action="register"  id="register">
+
+			<table>
+			<tr><td colspan='2'><input name="submit" type="submit"
+						value="Register" /></td> </tr>
+			</table>
+		</form>
 	</div>
 
 </body>
