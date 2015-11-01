@@ -1,13 +1,11 @@
 package edu.asu.se.dao.mongodb.impl;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
-
 import edu.asu.se.dao.UserDAO;
 import edu.asu.se.model.GitProjectDetails;
 import edu.asu.se.model.User;
@@ -28,13 +26,27 @@ public class UserDAOMongoImpl implements UserDAO {
 
 	@Override
 	public List<GitProjectDetails> getProjectDetails(String userName) {
-		Query query = new Query(Criteria.where("username").is(userName));
-		return mongoTemplate.find(query, GitProjectDetails.class, USER_COLLECTION);
+		User user = findUserByName(userName);
+		Query query = new Query(Criteria.where("_id").in(user.getProjects()));
+		return mongoTemplate.find(query, GitProjectDetails.class, "projectDetails");
 	}
 
 	@Override
-	public void insertProjectDetails(GitProjectDetails gitProjectDetails) {
-		mongoTemplate.insert(gitProjectDetails, USER_COLLECTION);
+	public void insertProjectDetails(String userName, GitProjectDetails gitProjectDetails) {
+		User user = findUserByName(userName);
+		Query query = new Query(
+				Criteria.where("_id").in(user.getProjects()).and("projectUrl").is(gitProjectDetails.getProjectUrl()));
+		GitProjectDetails availableProject = mongoTemplate.findOne(query, GitProjectDetails.class, "projectDetails");
+		if (availableProject == null) {
+			mongoTemplate.insert(gitProjectDetails, "projectDetails");
+			query = new Query(Criteria.where("projectUrl").is(gitProjectDetails.getProjectUrl()));
+			availableProject = mongoTemplate.findOne(query, GitProjectDetails.class, "projectDetails");
+			user.getProjects().add(availableProject.getId());
+			mongoTemplate.save(user, USER_COLLECTION);
+		} else {
+			availableProject.getBranchDetails().add(gitProjectDetails.getBranchDetails().get(0));
+			mongoTemplate.save(availableProject, "projectDetails");
+		}
 	}
 
 }
