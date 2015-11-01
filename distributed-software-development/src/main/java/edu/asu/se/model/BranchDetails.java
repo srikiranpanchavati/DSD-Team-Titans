@@ -1,12 +1,13 @@
 package edu.asu.se.model;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class BranchDetails {
+	private String id;
 	private String branchName;
 	private String createdDate;
-	private ArrayList<FileActivityDetails> fileActivityDetails;
-	private ArrayList<CodeStatistics> codeStatistics;
+	private List<FileActivityDetails> fileActivityDetails;
+	private List<CodeStatistics> codeStatistics;
 
 	public String getBranchName() {
 		return branchName;
@@ -24,20 +25,28 @@ public class BranchDetails {
 		this.createdDate = createdDate;
 	}
 
-	public ArrayList<FileActivityDetails> getFileActivityDetails() {
+	public List<FileActivityDetails> getFileActivityDetails() {
 		return fileActivityDetails;
 	}
 
-	public void setFileActivityDetails(ArrayList<FileActivityDetails> fileActivityDetails) {
+	public void setFileActivityDetails(List<FileActivityDetails> fileActivityDetails) {
 		this.fileActivityDetails = fileActivityDetails;
 	}
 
-	public ArrayList<CodeStatistics> getCodeStatistics() {
+	public List<CodeStatistics> getCodeStatistics() {
 		return codeStatistics;
 	}
 
-	public void setCodeStatistics(ArrayList<CodeStatistics> codeStatistics) {
+	public void setCodeStatistics(List<CodeStatistics> codeStatistics) {
 		this.codeStatistics = codeStatistics;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 
 }

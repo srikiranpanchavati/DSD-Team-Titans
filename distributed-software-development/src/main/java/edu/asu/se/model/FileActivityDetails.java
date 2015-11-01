@@ -1,16 +1,15 @@
 package edu.asu.se.model;
 
-import java.util.ArrayList;
-import java.util.Date;
+import java.util.List;
 
 public class FileActivityDetails {
 	private String fileName;
 	private String filePath;
-	private Date createdDate;
+	private String createdDate;
 	private String lastCommittedBy;
 	private int commits;
 	private int locSinceLastCommit;
-	private ArrayList<UserActivityDetails> usersActivity;
+	private List<UserActivityDetails> usersActivity;
 
 	public String getFileName() {
 		return fileName;
@@ -28,11 +27,11 @@ public class FileActivityDetails {
 		this.filePath = filePath;
 	}
 
-	public Date getCreatedDate() {
+	public String getCreatedDate() {
 		return createdDate;
 	}
 
-	public void setCreatedDate(Date createdDate) {
+	public void setCreatedDate(String createdDate) {
 		this.createdDate = createdDate;
 	}
 
@@ -60,11 +59,11 @@ public class FileActivityDetails {
 		this.commits = commits;
 	}
 
-	public ArrayList<UserActivityDetails> getUsersActivity() {
+	public List<UserActivityDetails> getUsersActivity() {
 		return usersActivity;
 	}
 
-	public void setUsersActivity(ArrayList<UserActivityDetails> usersActivity) {
+	public void setUsersActivity(List<UserActivityDetails> usersActivity) {
 		this.usersActivity = usersActivity;
 	}
 }

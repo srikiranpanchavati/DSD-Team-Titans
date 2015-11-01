@@ -63,5 +63,5 @@ public class CodeStatistics {
 
 	public void setComplexity(int complexity) {
 		this.complexity = complexity;
-	}	
+	}
 }

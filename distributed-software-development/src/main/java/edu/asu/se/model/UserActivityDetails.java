@@ -1,7 +1,5 @@
 package edu.asu.se.model;
 
-import java.util.Date;
-
 import org.springframework.data.annotation.Id;
 
 public class UserActivityDetails {
@@ -9,7 +7,7 @@ public class UserActivityDetails {
 	@Id
 	private String id;
 	private int onlineTime;
-	private Date startDate;
+	private String startDate;
 	private int commitsMade;
 	private int loc;
 	private int buildbreaks;
@@ -30,11 +28,11 @@ public class UserActivityDetails {
 		this.onlineTime = onlineTime;
 	}
 
-	public Date getStartDate() {
+	public String getStartDate() {
 		return startDate;
 	}
 
-	public void setStartDate(Date startDate) {
+	public void setStartDate(String startDate) {
 		this.startDate = startDate;
 	}
 
