@@ -32,8 +32,10 @@ public class ProfileController {
 	}
 
 	public ModelAndView getProfileDetails(GitProjectDetails projectDetails) {
+		String userName = CommonInfo.getUserName();
 		if (projectDetails != null) {
-			userDAO.insertProjectDetails(projectDetails);
+			userDAO.insertProjectDetails(userName, projectDetails);
+			projectDetails = null;
 		}
 		ModelAndView model = new ModelAndView();
 		List<GitProjectDetails> projectDetailsList = userDAO.getProjectDetails(CommonInfo.getUserName());

@@ -2,71 +2,120 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page isELIgnored="false"%>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
 	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=Edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="description" content="Registration page">
 	<meta name="author" content="Team-Titans">
-    <title>Registration Page</title>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.is"></script>
-	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" />
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-	<link href="css/register.css" rel="stylesheet" />
+	<title>Registration Page</title>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.js"></script>  
+	<link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>  
+	<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.3/css/bootstrapValidator.min.css"/>
+	<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.3/js/bootstrapValidator.min.js"> </script>
+	<style>
+  body {
+    padding-top: 10px;
+  }
+</style>
 </head>
-<body style='background-color: #FFBB90'>
-	<!-- Registration Container -->
+<body id="body">
     <div class="container">
-		<div class = "row-fluid" >			
-			<form class = "form-horizontal">				
-				<label for="First Name" class="control-label"> Name: </label>
-				<br/>
-				<div class = "row">
+		<div class = "row-fluid">	
+		<h2>Registration Page</h2>		
+			<form class = "form-horizontal" id="testform">				
+				<div class = "form-group">
+					<label class="col-md-3 control-label">First Name</label>
 					<div class="col-md-4">
-						<input type="text" class="form-control" id="First Name" placeholder="Enter First name" />
-						<br/>
-					</div>	
+						<input type="text" class="form-control" name="FirstName" placeholder="Enter First Name" />
+					</div>
 					<div class="col-md-4">
-						<input type="text" class="form-control" id="Last Name" placeholder="Enter Last name" />
-					</div>					
-				</div>
-								
-				<label for= "Email-Id" class="control-label">Email-Id:</label>
-				<br/>
-                <div class="row padding-top-10">
-                    <div class="col-md-8 padding-top-10">
-                        <input type="text" class="form-control"	id="Email-Id" placeholder="Enter a valid Email address" />
-						<br/>
+						<input type="text" class="form-control" name="LastName" placeholder="Enter Last Name" />
+					</div>
+				</div>		
+                <div class= "form-group">
+                    <label class="col-md-3 control-label">EmailId:</label>
+                    <div class="col-md-4">
+                        <input type="email" class="form-control" name="EmailId" placeholder="Enter your Email-Id"/>
                     </div>
-                </div>
-                
-				<label for= "Password" class="control-label">Password:</label>
-				<br/>
-                <div class="row">
-                    <div class="col-md-8">
-                        <input type="password" class="form-control"	id="Password" placeholder="Enter your password" />
-						<br/>
-                    </div>
-                </div>
-                
-				<label for= "Confirm Password" class="control-label">Confirm Password:</label>
-				<br/>
-                <div class="row">
-                    <div class="col-md-8">
-                        <input type="password" class="form-control"	id="Confirm Password" placeholder="Confirm password" />
-                    </div>
-                </div>
-				<div class="row padding-top-10">
-				<br/>
-					<div class="col-md-2 padding-top-10">
-						<button type="button" class="btn btn-success">REGISTER</button>
-					</div>	
+                </div>	
+                <div class= "form-group">
+				    <label class="col-md-3 control-label">Password:</label>
+					<div class="col-md-4">
+					    <input type="Password" class="form-control" name="confirmPassword" placeholder="Confirm your password"/>
+					</div>
+				</div>		
+                <div class= "form-group">
+				    <label class="col-md-3 control-label">Confirm Password:</label>
+					<div class="col-md-4">
+					    <input type="Password" class="form-control" name="confirmPassword" placeholder="Confirm your password"/>
+					</div>
+				</div>				
+            				
+				<div class="form-group">
+					<div class="col-md-9 col-md-offset-3">
+						<button type="submit" class="btn btn-success">Register</button>
+					</div>
 				</div>
 			</form>	
 		</div>
 	</div>
 </body>
+<script type="text/javascript">
+	$(document).ready(function(){
+	 var validator = $("#testform").bootstrapValidator({
+		feedbackIcons : {
+			valid : "glyphicon glyphicon-ok",
+			invalid : "glyphicon glyphicon-remove",
+			validating : "glyphicon glyphicon-recycle"
+		},
+		fields: {
+			FirstName : {
+				validators : {
+					notEmpty : {
+						message : "cannot be empty"
+					}
+				}
+			},
+			LastName : {
+				validators : {
+					notEmpty : {
+						message : "last name cannot be empty"
+					}
+				}
+			},
+			EmailId : {
+				validators : {
+					notEmpty : {
+						message : "Email-Id cannot be empty"
+					}
+				}
+			}
+		}
+	 });
+	});
+$(document).ready(function() {
+    $('#regexpForm').formValidation({
+        framework: 'bootstrap',
+        icon: {
+            valid: 'glyphicon glyphicon-ok',
+            invalid: 'glyphicon glyphicon-remove',
+            validating: 'glyphicon glyphicon-refresh'
+        },
+        fields: {
+            Password: {
+                validators: {
+                    regexp: {
+                        regexp: /^[a-z\s]+$/i,
+                        message: 'The password can consist of alphabetical characters and spaces only'
+                    }
+                }
+            }
+        }
+    });
+});
+</script>
 </html>

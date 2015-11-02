@@ -1,15 +1,16 @@
 package edu.asu.se.model;
 
+import java.util.List;
+
 import org.springframework.data.annotation.Id;
 
 public class GitProjectDetails {
 
 	@Id
 	private String id;
-	private String username;
 	private String projectName;
-	private String projectURL;
-	private String branch;
+	private String projectUrl;
+	private List<BranchDetails> branchDetails;
 
 	public String getId() {
 		return id;
@@ -17,14 +18,6 @@ public class GitProjectDetails {
 
 	public void setId(String id) {
 		this.id = id;
-	}
-
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
 	}
 
 	public String getProjectName() {
@@ -35,19 +28,20 @@ public class GitProjectDetails {
 		this.projectName = projectName;
 	}
 
-	public String getProjectURL() {
-		return projectURL;
+	public List<BranchDetails> getBranchDetails() {
+		return branchDetails;
 	}
 
-	public void setProjectURL(String projectURL) {
-		this.projectURL = projectURL;
+	public void setBranchDetails(List<BranchDetails> branchDetails) {
+		this.branchDetails = branchDetails;
 	}
 
-	public String getBranch() {
-		return branch;
+	public String getProjectUrl() {
+		return projectUrl;
 	}
 
-	public void setBranch(String branch) {
-		this.branch = branch;
+	public void setProjectUrl(String projectUrl) {
+		this.projectUrl = projectUrl;
 	}
+
 }

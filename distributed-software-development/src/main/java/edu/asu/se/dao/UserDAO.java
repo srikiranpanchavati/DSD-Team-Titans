@@ -11,5 +11,7 @@ public interface UserDAO {
 
 	public List<GitProjectDetails> getProjectDetails(String userName);
 
-	public void insertProjectDetails(GitProjectDetails gitProjectDetails);
+	public void insertProjectDetails(String userName, GitProjectDetails gitProjectDetails);
+	
+	public GitProjectDetails getStats(GitProjectDetails details);
 }

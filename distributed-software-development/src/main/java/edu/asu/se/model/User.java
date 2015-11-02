@@ -1,22 +1,15 @@
 package edu.asu.se.model;
 
-import org.springframework.data.annotation.Id;
+import java.util.List;
 
 public class User {
-	@Id
-	private String id;
+
+	private String _id;
 	private String username;
 	private String password;
 	private Boolean enabled;
 	private String role;
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
+	private List<String> projects;
 
 	public String getUsername() {
 		return username;
@@ -48,5 +41,21 @@ public class User {
 
 	public void setRole(String role) {
 		this.role = role;
+	}
+
+	public List<String> getProjects() {
+		return projects;
+	}
+
+	public void setProjects(List<String> projects) {
+		this.projects = projects;
+	}
+
+	public String get_id() {
+		return _id;
+	}
+
+	public void set_id(String _id) {
+		this._id = _id;
 	}
 }
