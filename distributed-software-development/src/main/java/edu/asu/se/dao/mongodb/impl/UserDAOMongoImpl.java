@@ -3,9 +3,13 @@ package edu.asu.se.dao.mongodb.impl;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
+
+import com.mongodb.BasicDBObject;
+
 import edu.asu.se.dao.UserDAO;
 import edu.asu.se.model.GitProjectDetails;
 import edu.asu.se.model.User;
@@ -46,7 +50,19 @@ public class UserDAOMongoImpl implements UserDAO {
 		} else {
 			availableProject.getBranchDetails().add(gitProjectDetails.getBranchDetails().get(0));
 			mongoTemplate.save(availableProject, "projectDetails");
+
 		}
+	}
+
+	@Override
+	public GitProjectDetails getStats(GitProjectDetails details) {
+		// Query query2 = new
+		// Query(Criteria.where("branchDetails.branchName").is(details.getBranchDetails().get(0).getBranchName()));
+		Query query = new Query(
+				Criteria.where("branchDetails.branchName").is(details.getBranchDetails().get(0).getBranchName())).addCriteria(
+				Criteria.where("_id").is(details.getId()).and("branchDetails").elemMatch(
+								Criteria.where("branchName").is(details.getBranchDetails().get(0).getBranchName())));
+		return mongoTemplate.findOne(query, GitProjectDetails.class, "projectDetails");
 	}
 
 }
