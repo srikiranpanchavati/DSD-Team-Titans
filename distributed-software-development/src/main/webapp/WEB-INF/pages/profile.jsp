@@ -1,6 +1,7 @@
 <%@taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ page isELIgnored="false"%>
 <html>
 
@@ -76,9 +77,6 @@
 	function formSubmit() {
 		document.getElementById("logoutForm").submit();
 	}
-	function viewStatistics() {
-		document.getElementById("viewStatisticsForm").submit();
-	}
 	</script>
 </head>
 <body id="top">
@@ -118,32 +116,35 @@
             <div class="row">
                 <div class="col-lg-12 col-md-6 text-center">
                     <h3 class="section-heading text-center">My Github Projects</h3>
-                    <hr class="light"> 
-                    <form action="<c:url value='/statistics'/>" method="get" id="viewStatisticsForm">                   
-	                    <table class="table table-hover" id="urltable">
-					    	<thead>
-						      <tr>
-						        <th>Project Name</th>
-						        <th>Git Hub URL</th>
-								<th>branch Name</th>
-						        <th>Statistics</th>
-						      </tr>
-						    </thead>					    
-						    <tbody>
-						    <c:forEach var="details" items="${projectDetails}">
-						    	<c:if test="${details.projectName != null}" >
-						    		<tr>
+                    <hr class="light">                                        
+                    <table class="table table-hover" id="urltable">
+				    	<thead>
+					      <tr>
+					        <th>Project Name</th>
+					        <th>Git Hub URL</th>
+							<th>branch Name</th>
+					        <th>Statistics</th>
+					      </tr>
+					    </thead>
+				 	<tbody>
+				    <c:forEach var="details" items="${projectDetails}">
+				    	<c:forEach var ="branch_details" items="${details.branchDetails}">				    		    	
+					    	<c:if test="${details.projectName != null}" >					    		
+						    		<tr>						    		
 							    		<td>${details.projectName}</td>
-							    		<td><a target="_blank" href="${details.projectURL}">${details.projectURL}</a></td>
-							    		<td>${details.branch}</td>
-							    		<td><a href="javascript:viewStatistics()" id="${details.projectURL}">View Statistics</a></td>
-						    		</tr>
-						    	</c:if>
-						    </c:forEach>
-						    </tbody>					      
-					  	</table>
-				  	</form>
-				  	
+							    		<td><a target="_blank" href="${details.projectUrl}">${details.projectUrl}</a></td>
+							    		<td>${branch_details.branchName}</td>  
+							    		<form:form action="statistics" method="post" id="viewStatisticsForm">
+							    			<input type ="hidden" name="id" value = "${details.id}"/>
+							    			<input type ="hidden" name="branchDetails[0].branchName" value ="${branch_details.branchName}"/>
+									    	<td><button type = "submit" class="btn btn-default">test</button> </td>
+									     </form:form>			   							    		
+						    		</tr>						   
+					    	</c:if>			    	
+				    	</c:forEach>
+				    </c:forEach>
+				  	</tbody>
+				  	</table>
 				  	<!-- Addition of Projects -->
 				  	<hr class="light">
 				  	<h4>Add a new project here:</h4>
@@ -152,12 +153,11 @@
   							<input type="hidden" class="form-control" name="${_csrf.parameterName}"
 							value="${_csrf.token}" />
   							<label for="proname">Project Name: </label>
-  							<input type="hidden" class="form-control" name="username" value="${pageContext.request.userPrincipal.name}">
   							<input type="text" class="form-control" name="projectName" placeholder="Sample Project">  							
   							<label for="proname">Branch Name: </label>
-  							<input type="text" class="form-control" name="branch" placeholder="master">
+  							<input type="text" class="form-control" name="branchDetails[0].branchName" placeholder="master">
 						    <label for="githuburl">Git hub URL: </label>
-						    <input type="url" class="form-control" name="projectURL" placeholder="http://github.com/dummy">
+						    <input type="url" class="form-control" name="projectUrl" placeholder="http://github.com/dummy">
 						    <button type="submit" class="btn btn-default" name="update" id="submit1">add</button>
 						</div>
 					</form>
