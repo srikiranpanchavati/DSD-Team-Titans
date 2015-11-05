@@ -1,8 +1,14 @@
 package edu.asu.se.model;
 
+import java.util.Date;
+
+import org.springframework.data.annotation.Id;
+
 public class CodeStatistics {
+	@Id
+	private String id;
 	private String buildName;
-	private String buildDate;
+	private Date buildDate;
 	private String triggeredBy;
 	private int locChanged;
 	private int compilationErrors;
@@ -17,11 +23,11 @@ public class CodeStatistics {
 		this.buildName = buildName;
 	}
 
-	public String getBuildDate() {
+	public Date getBuildDate() {
 		return buildDate;
 	}
 
-	public void setBuildDate(String buildDate) {
+	public void setBuildDate(Date buildDate) {
 		this.buildDate = buildDate;
 	}
 
@@ -64,4 +70,13 @@ public class CodeStatistics {
 	public void setComplexity(int complexity) {
 		this.complexity = complexity;
 	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
 }
