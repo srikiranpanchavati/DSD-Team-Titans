@@ -1,15 +1,20 @@
 package edu.asu.se.model;
 
+import java.util.Date;
 import java.util.List;
 
+import org.springframework.data.annotation.Id;
+
 public class FileActivityDetails {
+	@Id
+	private String id;
 	private String fileName;
 	private String filePath;
-	private String createdDate;
+	private Date createdDate;
 	private String lastCommittedBy;
 	private int commits;
 	private int locSinceLastCommit;
-	private List<UserActivityDetails> usersActivity;
+	private List<String> usersActivityDetailsId;
 
 	public String getFileName() {
 		return fileName;
@@ -27,11 +32,11 @@ public class FileActivityDetails {
 		this.filePath = filePath;
 	}
 
-	public String getCreatedDate() {
+	public Date getCreatedDate() {
 		return createdDate;
 	}
 
-	public void setCreatedDate(String createdDate) {
+	public void setCreatedDate(Date createdDate) {
 		this.createdDate = createdDate;
 	}
 
@@ -59,11 +64,19 @@ public class FileActivityDetails {
 		this.commits = commits;
 	}
 
-	public List<UserActivityDetails> getUsersActivity() {
-		return usersActivity;
+	public List<String> getUsersActivityDetailsId() {
+		return usersActivityDetailsId;
 	}
 
-	public void setUsersActivity(List<UserActivityDetails> usersActivity) {
-		this.usersActivity = usersActivity;
+	public void setUsersActivityDetailsId(List<String> usersActivityDetailsId) {
+		this.usersActivityDetailsId = usersActivityDetailsId;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 }
