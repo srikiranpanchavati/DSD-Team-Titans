@@ -9,6 +9,7 @@ public class User {
 	private String password;
 	private Boolean enabled;
 	private String role;
+	private String email;
 	private List<String> projects;
 
 	public String getUsername() {
@@ -57,5 +58,13 @@ public class User {
 
 	public void set_id(String _id) {
 		this._id = _id;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 }
