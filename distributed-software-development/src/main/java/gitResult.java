@@ -87,14 +87,14 @@ public class gitResult {
 						// for all log.all()
 						.addPath(treeWalk.getPathString()).call();
 				count = 0;
-				String createdDate = "0";
+				Date createdDate = null;
 				String name = "0";
 				for (RevCommit rev : logs) {
 					 System.out.println("Commit: " + rev + ", name: " +
 					 rev.getAuthorIdent().getEmailAddress() + ", id: "
 					 + rev.getId().getName() + "time: " +
 					 rev.getAuthorIdent().getWhen());
-					 createdDate = rev.getAuthorIdent().getWhen().toString();
+					 createdDate = rev.getAuthorIdent().getWhen();
 					 name = rev.getAuthorIdent().getName();
 					count++;
 				}
