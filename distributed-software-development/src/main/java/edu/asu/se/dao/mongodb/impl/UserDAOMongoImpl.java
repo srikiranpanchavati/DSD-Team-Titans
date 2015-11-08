@@ -27,19 +27,17 @@ public class UserDAOMongoImpl implements UserDAO {
 	private static final String USER_COLLECTION = "users";
 
 	@Override
-	public boolean insertUserRegisterationDetails(User user)
-	{
+	public boolean insertUserRegisterationDetails(User user) {
 		user.setEnabled(true);
 		user.setRole("ROLE_USER");
 		User availableUser = findUserByName(user.getUsername());
-		if (availableUser != null)
-		{
+		if (availableUser != null) {
 			return false;
 		}
 		mongoTemplate.insert(user, USER_COLLECTION);
 		return true;
 	}
-	
+
 	@Override
 	public User findUserByName(String userName) {
 		Query query = new Query(Criteria.where("username").is(userName));
@@ -61,14 +59,15 @@ public class UserDAOMongoImpl implements UserDAO {
 		GitProjectDetails availableProject = mongoTemplate.findOne(query, GitProjectDetails.class, "projectDetails");
 		if (availableProject == null) {
 			mongoTemplate.insert(gitProjectDetails, "projectDetails");
-			query = new Query(Criteria.where("projectUrl").is(gitProjectDetails.getProjectUrl()));
-			availableProject = mongoTemplate.findOne(query, GitProjectDetails.class, "projectDetails");
-			user.getProjects().add(availableProject.getId());
-			mongoTemplate.save(user, USER_COLLECTION);
 		} else {
 			availableProject.getBranchDetails().add(gitProjectDetails.getBranchDetails().get(0));
 			mongoTemplate.save(availableProject, "projectDetails");
-
+		}
+		query = new Query(Criteria.where("projectUrl").is(gitProjectDetails.getProjectUrl()));
+		availableProject = mongoTemplate.findOne(query, GitProjectDetails.class, "projectDetails");
+		if (user.getProjects().contains(availableProject.getId())) {
+			user.getProjects().add(availableProject.getId());
+			mongoTemplate.save(user, USER_COLLECTION);
 		}
 	}
 
@@ -96,6 +95,14 @@ public class UserDAOMongoImpl implements UserDAO {
 				Criteria.where("_id").in(branchDetails.getBranchDetails().get(0).getFileActivityDetailsId()));
 		return mongoTemplate.find(query, FileActivityDetails.class, "FileActivityDetails");
 	}
+	
+	public void insertFileActivityDetails(GitProjectDetails projDetails,  FileActivityDetails fileDetail)
+	{
+		mongoTemplate.insert(fileDetail, "FileActivityDetails");
+		projDetails = getBranchDetails(projDetails);
+		projDetails.getBranchDetails().get(0).getFileActivityDetailsId().add(fileDetail.getId());
+		mongoTemplate.save(projDetails, "projectDetails");
+	}
 
 	@Override
 	public List<UserActivityDetails> getUserActivityDetails(GitProjectDetails details) {
@@ -104,7 +111,15 @@ public class UserDAOMongoImpl implements UserDAO {
 				Criteria.where("_id").in(branchDetails.getBranchDetails().get(0).getUserActivityDetailsId()));
 		return mongoTemplate.find(query, UserActivityDetails.class, "UserActivityDetails");
 	}
-
+	
+	public void insertUserActivityDetails(GitProjectDetails projDetails,  UserActivityDetails userDetail)
+	{
+		mongoTemplate.insert(userDetail, "UserActivityDetails");
+		projDetails = getBranchDetails(projDetails);
+		projDetails.getBranchDetails().get(0).getFileActivityDetailsId().add(userDetail.getId());
+		mongoTemplate.save(projDetails, "projectDetails");
+	}
+	
 	@Override
 	public List<CodeStatistics> getCodeStatistics(GitProjectDetails details) {
 		GitProjectDetails branchDetails = getBranchDetails(details);
