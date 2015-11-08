@@ -41,6 +41,7 @@ public class gitResult {
 
 	private static void listRepositoryContents(Repository repository) throws IOException, GitAPIException {
 
+		@SuppressWarnings("resource")
 		Git git = new Git(repository);
 		int count = 0;
 		List<Ref> call = git.branchList().setListMode(ListMode.ALL).call();
@@ -51,12 +52,14 @@ public class gitResult {
 			// a RevWalk allows to walk over commits based on some filtering
 			// that is
 			// defined
+			@SuppressWarnings("resource")
 			RevWalk walk = new RevWalk(repository);
 
 			RevCommit commit = walk.parseCommit(head.getObjectId());
 			RevTree tree = commit.getTree();
 
 			String fullPath = ref.getName();
+			
 			int index = fullPath.lastIndexOf("/");
 			String branchName = fullPath.substring(index + 1);
 			System.out.println("Having tree: " + tree + branchName);
@@ -76,6 +79,7 @@ public class gitResult {
 			// now use a TreeWalk to iterate over all files in the Tree
 			// recursively
 			// you can set Filters to narrow down the results if needed
+			@SuppressWarnings("resource")
 			TreeWalk treeWalk = new TreeWalk(repository);
 			treeWalk.addTree(tree);
 			treeWalk.setRecursive(true);
@@ -100,10 +104,13 @@ public class gitResult {
 				}
 				System.out.println("Had " + count + " commits on " + treeWalk.getPathString());
 				String file = treeWalk.getPathString();
-				int ind = fullPath.lastIndexOf("/");
-				String fileName = fullPath.substring(index + 1);
-				String filePath = fullPath.substring(0, index);
-				
+				int ind = file.lastIndexOf("/");
+				String fileName = file.substring(ind + 1);
+				//System.out.println(file+"file");
+				//String fileP = treeWalk.getPathString();
+				//int indP = fileP.lastIndexOf("/");
+				String filePath = file.substring(0, ind + 1);
+				//System.out.println(filePath + "fileP");
 				
 				FileActivityDetails f = new FileActivityDetails();
 				f.setFileName(fileName);
