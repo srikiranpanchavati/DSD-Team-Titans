@@ -9,6 +9,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import edu.asu.se.dao.CodeStatsDAO;
+import edu.asu.se.dao.FileActivityDAO;
+import edu.asu.se.dao.ProjectDetailsDAO;
+import edu.asu.se.dao.UserActivityDAO;
 import edu.asu.se.dao.UserDAO;
 import edu.asu.se.model.CodeStatistics;
 import edu.asu.se.model.FileActivityDetails;
@@ -19,13 +23,19 @@ import edu.asu.se.model.UserActivityDetails;
 public class StatisticsController {
 
 	@Autowired
-	UserDAO userDAO;
+	FileActivityDAO fileActivityDAO;
+
+	@Autowired
+	UserActivityDAO userActivityDAO;
+
+	@Autowired
+	CodeStatsDAO codeStatsDAO;
 
 	@RequestMapping(value = "/statistics**", method = RequestMethod.POST)
 	public ModelAndView getStatistics(@ModelAttribute GitProjectDetails detail) {
-		List<FileActivityDetails> fileDetails = userDAO.getFileActivityDetails(detail);
-		List<UserActivityDetails> userDetails = userDAO.getUserActivityDetails(detail);
-		List<CodeStatistics> codeStats = userDAO.getCodeStatistics(detail);
+		List<FileActivityDetails> fileDetails = fileActivityDAO.getFileActivityDetails(detail);
+		List<UserActivityDetails> userDetails = userActivityDAO.getUserActivityDetails(detail);
+		List<CodeStatistics> codeStats = codeStatsDAO.getCodeStatistics(detail);
 		ModelAndView model = new ModelAndView();
 		model.addObject("userDetails", userDetails);
 		model.addObject("fileDetails", fileDetails);
