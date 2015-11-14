@@ -6,12 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.stereotype.Repository;
 
 import edu.asu.se.dao.CodeStatsDAO;
 import edu.asu.se.dao.ProjectDetailsDAO;
 import edu.asu.se.model.CodeStatistics;
 import edu.asu.se.model.GitProjectDetails;
 
+@Repository
 public class CodeStatsDAOMongoImpl implements CodeStatsDAO {
 
 	@Autowired
