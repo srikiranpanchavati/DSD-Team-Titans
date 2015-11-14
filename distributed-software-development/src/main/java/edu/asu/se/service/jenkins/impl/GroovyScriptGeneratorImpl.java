@@ -23,7 +23,7 @@ public class GroovyScriptGeneratorImpl implements GroovyScriptGenerator {
 	@Override
 	public Boolean generateScipt(String projectName, String rootPOMLoc) {
 
-		String filePath = env.getProperty("DSLJobWSPath") + projectName.replaceAll("/", "-") + ".groovy";
+		String filePath = env.getProperty("DSLJobWSPath") + "/DSL Git projects builder/" + projectName.replaceAll("/", "-") + ".groovy";
 
 		StringBuffer buf = new StringBuffer();
 		buf.append("def project = '").append(projectName).append("'\n");
@@ -51,6 +51,7 @@ public class GroovyScriptGeneratorImpl implements GroovyScriptGenerator {
 		try {
 			writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(filePath)));
 			writer.write(buf.toString());
+			result = true;
 		} catch (IOException ex) {
 			result = false;
 		} finally {
