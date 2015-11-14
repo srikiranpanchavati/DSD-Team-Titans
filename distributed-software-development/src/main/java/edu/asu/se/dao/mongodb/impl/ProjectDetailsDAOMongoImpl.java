@@ -1,5 +1,6 @@
 package edu.asu.se.dao.mongodb.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,27 +33,52 @@ public class ProjectDetailsDAOMongoImpl implements ProjectDetailsDAO {
 	@Override
 	public List<GitProjectDetails> getProjectDetails(String userName) {
 		User user = userDAO.findUserByName(userName);
-		Query query = new Query(Criteria.where("_id").in(user.getProjects()));
-		return mongoTemplate.find(query, GitProjectDetails.class, "projectDetails");
+		if (user.getProjects() != null) {
+			Query query = new Query(Criteria.where("_id").in(user.getProjects()));
+			return mongoTemplate.find(query, GitProjectDetails.class, "projectDetails");
+		}
+		return new ArrayList<GitProjectDetails>();
 	}
 
 	@Override
 	public void insertProjectDetails(String userName, GitProjectDetails gitProjectDetails) {
-		User user = userDAO.findUserByName(userName);
-		Query query = new Query(
-				Criteria.where("_id").in(user.getProjects()).and("projectUrl").is(gitProjectDetails.getProjectUrl()));
-		GitProjectDetails availableProject = mongoTemplate.findOne(query, GitProjectDetails.class, "projectDetails");
-		if (availableProject == null) {
-			mongoTemplate.insert(gitProjectDetails, PROJECTDETAILS_COLLECTION);
-		} else {
-			availableProject.getBranchDetails().add(gitProjectDetails.getBranchDetails().get(0));
-			mongoTemplate.save(availableProject, "projectDetails");
-		}
-		query = new Query(Criteria.where("projectUrl").is(gitProjectDetails.getProjectUrl()));
-		availableProject = mongoTemplate.findOne(query, GitProjectDetails.class, "projectDetails");
-		if (user.getProjects().contains(availableProject.getId())) {
-			user.getProjects().add(availableProject.getId());
-			mongoTemplate.save(user, USER_COLLECTION);
+		if (gitProjectDetails.getProjectName() != "" && gitProjectDetails.getProjectUrl() != ""
+				&& gitProjectDetails.getBranchDetails().get(0).getBranchName() != "") {
+			User user = userDAO.findUserByName(userName);
+			GitProjectDetails availableProject = null;
+			Query query = null;
+			String projectId = "";
+			query = new Query(Criteria.where("projectUrl").is(gitProjectDetails.getProjectUrl()));
+			availableProject = mongoTemplate.findOne(query, GitProjectDetails.class, "projectDetails");
+
+			// check if project is available and also if branch is available
+			if (availableProject == null) {
+				mongoTemplate.insert(gitProjectDetails, PROJECTDETAILS_COLLECTION);
+				projectId = gitProjectDetails.getId();
+
+			} else {
+				gitProjectDetails.setId(availableProject.getId());
+				if (getBranchDetails(gitProjectDetails).getBranchDetails() == null) {
+					availableProject.getBranchDetails().add(gitProjectDetails.getBranchDetails().get(0));
+					mongoTemplate.save(availableProject, "projectDetails");
+				}
+				projectId = availableProject.getId();
+			}
+
+			// check if user is associated to that project
+			if (user.getProjects() != null) {
+				if (!user.getProjects().contains(projectId)) {
+					user.getProjects().add(projectId);
+					mongoTemplate.save(user, USER_COLLECTION);
+				}
+			}
+			else
+			{
+				List<String> projects = new ArrayList<String>();
+				projects.add(projectId);
+				user.setProjects(projects);
+				mongoTemplate.save(user, USER_COLLECTION);
+			}
 		}
 	}
 
@@ -70,7 +96,12 @@ public class ProjectDetailsDAOMongoImpl implements ProjectDetailsDAO {
 		query.put("branchDetails.branchName", details.getBranchDetails().get(0).getBranchName());
 
 		DBObject result = mongoTemplate.getCollection(PROJECTDETAILS_COLLECTION).findOne(query, idCriteria);
+		if(result != null)
+		{
 		return mongoTemplate.getConverter().read(GitProjectDetails.class, result);
+		}
+		else
+			return new GitProjectDetails();
 
 	}
 }

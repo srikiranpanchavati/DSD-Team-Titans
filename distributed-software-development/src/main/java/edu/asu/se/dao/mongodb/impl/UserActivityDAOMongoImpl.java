@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.stereotype.Repository;
 
 import edu.asu.se.dao.ProjectDetailsDAO;
 import edu.asu.se.dao.UserActivityDAO;
@@ -14,6 +15,7 @@ import edu.asu.se.model.BranchDetails;
 import edu.asu.se.model.GitProjectDetails;
 import edu.asu.se.model.UserActivityDetails;
 
+@Repository
 public class UserActivityDAOMongoImpl implements UserActivityDAO {
 
 	@Autowired
