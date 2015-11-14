@@ -1,10 +1,7 @@
 package edu.asu.se.git.stats;
 
 public interface GitJobs {
-	public void cloneRepo(String repoURL);
-
-	public void updateRepo(String repoURL);
 	
-	public void pullGitLog(String logpath);
+	public void gitResult(String projectName, String branchName);
 	
 }
