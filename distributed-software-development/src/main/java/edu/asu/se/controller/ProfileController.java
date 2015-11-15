@@ -1,5 +1,6 @@
 package edu.asu.se.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,13 +12,21 @@ import org.springframework.web.servlet.ModelAndView;
 
 import edu.asu.se.common.CommonInfo;
 import edu.asu.se.dao.ProjectDetailsDAO;
+import edu.asu.se.git.stats.GitJobs;
 import edu.asu.se.model.GitProjectDetails;
+import edu.asu.se.service.jenkins.JenkinsJobConfigurer;
 
 @Controller
 public class ProfileController {
 
 	@Autowired
 	ProjectDetailsDAO projectDetailsDAO;
+
+	@Autowired
+	JenkinsJobConfigurer jenkinsJobConfigurer;
+
+	@Autowired
+	GitJobs gitJobs;
 
 	@RequestMapping(value = "/profile**", method = RequestMethod.GET)
 	public ModelAndView profile() {
@@ -27,8 +36,19 @@ public class ProfileController {
 	@RequestMapping(value = "/profile**", method = RequestMethod.POST)
 	public ModelAndView profileUpdate(@ModelAttribute GitProjectDetails projectDetails) {
 
-		return getProfileDetails(projectDetails);
-
+		String projectURL = projectDetails.getProjectUrl();
+		int index = projectURL.indexOf(".com/");
+		int lastIndex = projectURL.lastIndexOf(".");
+		String projectName = projectURL.substring(index + 5, lastIndex);
+		List<String> appUsers  = new ArrayList<String>();
+		appUsers.add(projectDetails.getBranchDetails().get(0).getLastAppUser());
+		projectDetails.getBranchDetails().get(0).setApplUsers(appUsers);
+		projectDetails.setProjectName(projectName);
+		String rootPOMLoc = projectDetails.getRootPOMLoc();
+		jenkinsJobConfigurer.setupJob(projectName, rootPOMLoc);
+		ModelAndView model = getProfileDetails(projectDetails);
+		gitJobs.gitResult(projectName, projectDetails.getBranchDetails().get(0).getBranchName());
+		return model;
 	}
 
 	public ModelAndView getProfileDetails(GitProjectDetails projectDetails) {

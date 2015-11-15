@@ -11,9 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import edu.asu.se.dao.CodeStatsDAO;
 import edu.asu.se.dao.FileActivityDAO;
-import edu.asu.se.dao.ProjectDetailsDAO;
 import edu.asu.se.dao.UserActivityDAO;
-import edu.asu.se.dao.UserDAO;
 import edu.asu.se.model.CodeStatistics;
 import edu.asu.se.model.FileActivityDetails;
 import edu.asu.se.model.GitProjectDetails;
