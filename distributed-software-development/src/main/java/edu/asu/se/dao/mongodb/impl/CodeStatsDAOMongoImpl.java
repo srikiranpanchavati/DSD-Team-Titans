@@ -1,5 +1,6 @@
 package edu.asu.se.dao.mongodb.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,9 +28,13 @@ public class CodeStatsDAOMongoImpl implements CodeStatsDAO {
 	@Override
 	public List<CodeStatistics> getCodeStatistics(GitProjectDetails details) {
 		GitProjectDetails branchDetails = projectDetailsDAO.getBranchDetails(details);
-		Query query = new Query(
-				Criteria.where("_id").in(branchDetails.getBranchDetails().get(0).getCodeStatisticsId()));
-		return mongoTemplate.find(query, CodeStatistics.class, CODESTATISTICS_COLLECTION);
+		List<String> branchIds = branchDetails.getBranchDetails().get(0).getCodeStatisticsId();
+		if (branchIds != null) {
+			Query query = new Query(Criteria.where("_id").in(branchIds).and("projName").is(details.getProjectName())
+					.and("branchName").is(details.getBranchDetails().get(0).getBranchName()));
+			return mongoTemplate.find(query, CodeStatistics.class, CODESTATISTICS_COLLECTION);
+		} else
+			return new ArrayList<CodeStatistics>();
 	}
 
 }
