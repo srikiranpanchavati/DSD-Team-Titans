@@ -7,6 +7,8 @@ import org.springframework.data.annotation.Id;
 public class CodeStatistics {
 	@Id
 	private String id;
+	private String projName;
+	private String branchName;
 	private String buildName;
 	private Date buildDate;
 	private String triggeredBy;
@@ -77,6 +79,22 @@ public class CodeStatistics {
 
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	public String getProjName() {
+		return projName;
+	}
+
+	public void setProjName(String projName) {
+		this.projName = projName;
+	}
+
+	public String getBranchName() {
+		return branchName;
+	}
+
+	public void setBranchName(String branchName) {
+		this.branchName = branchName;
 	}
 
 }

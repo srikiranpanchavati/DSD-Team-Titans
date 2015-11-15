@@ -10,6 +10,8 @@ public class BranchDetails {
 	private String id;
 	private String branchName;
 	private Date createdDate;
+	private List<String> applUsers;
+	private String lastAppUser;
 	private List<String> fileActivityDetailsId;
 	private List<String> userActivityDetailsId;
 	private List<String> codeStatisticsId;
@@ -61,5 +63,22 @@ public class BranchDetails {
 	public void setUserActivityDetailsId(List<String> userActivityDetailsId) {
 		this.userActivityDetailsId = userActivityDetailsId;
 	}
+
+	public List<String> getApplUsers() {
+		return applUsers;
+	}
+
+	public void setApplUsers(List<String> applUsers) {
+		this.applUsers = applUsers;
+	}
+
+	public String getLastAppUser() {
+		return lastAppUser;
+	}
+
+	public void setLastAppUser(String lastAppUser) {
+		this.lastAppUser = lastAppUser;
+	}
+
 
 }
