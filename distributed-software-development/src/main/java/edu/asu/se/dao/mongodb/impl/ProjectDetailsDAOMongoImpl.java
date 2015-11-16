@@ -66,18 +66,19 @@ public class ProjectDetailsDAOMongoImpl implements ProjectDetailsDAO {
 				} else {
 					for (BranchDetails branchDetail : availableProject.getBranchDetails()) {
 						if (branchDetail.getBranchName().equals(inputBranch.getBranchName())) {
-							if (branchDetail.getApplUsers() != null) {
+							if (branchDetail.getApplUsers() != null) {								
 								branchDetail.getApplUsers().add(inputBranch.getLastAppUser());
 								break;
-							} else {
+							}
+							else{
 								List<String> applUsers = new ArrayList<String>();
 								applUsers.add(inputBranch.getLastAppUser());
 								branchDetail.setApplUsers(applUsers);
 								break;
-							}
+							}							
 						}
 					}
-					mongoTemplate.save(availableProject, "projectDetails");
+					mongoTemplate.save(availableProject, "projectDetails");					
 				}
 				projectId = availableProject.getId();
 			}
