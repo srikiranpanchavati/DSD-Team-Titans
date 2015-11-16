@@ -1,7 +1,5 @@
 package edu.asu.se.model;
 
-import java.util.Date;
-
 import org.springframework.data.annotation.Id;
 
 public class CodeStatistics {
@@ -9,27 +7,18 @@ public class CodeStatistics {
 	private String id;
 	private String projName;
 	private String branchName;
-	private String buildName;
-	private Date buildDate;
+	private int buildNumber;
+	private String buildDate;
 	private String triggeredBy;
-	private int locChanged;
+	private String timeTaken;
 	private int compilationErrors;
-	private int buildErrors;
-	private int complexity;
+	private String buildStatus;
 
-	public String getBuildName() {
-		return buildName;
-	}
-
-	public void setBuildName(String buildName) {
-		this.buildName = buildName;
-	}
-
-	public Date getBuildDate() {
+	public String getBuildDate() {
 		return buildDate;
 	}
 
-	public void setBuildDate(Date buildDate) {
+	public void setBuildDate(String buildDate) {
 		this.buildDate = buildDate;
 	}
 
@@ -41,36 +30,12 @@ public class CodeStatistics {
 		this.triggeredBy = triggeredBy;
 	}
 
-	public int getLocChanged() {
-		return locChanged;
-	}
-
-	public void setLocChanged(int locChanged) {
-		this.locChanged = locChanged;
-	}
-
 	public int getCompilationErrors() {
 		return compilationErrors;
 	}
 
 	public void setCompilationErrors(int compilationErrors) {
 		this.compilationErrors = compilationErrors;
-	}
-
-	public int getBuildErrors() {
-		return buildErrors;
-	}
-
-	public void setBuildErrors(int buildErrors) {
-		this.buildErrors = buildErrors;
-	}
-
-	public int getComplexity() {
-		return complexity;
-	}
-
-	public void setComplexity(int complexity) {
-		this.complexity = complexity;
 	}
 
 	public String getId() {
@@ -95,6 +60,30 @@ public class CodeStatistics {
 
 	public void setBranchName(String branchName) {
 		this.branchName = branchName;
+	}
+
+	public String getBuildStatus() {
+		return buildStatus;
+	}
+
+	public void setBuildStatus(String buildStatus) {
+		this.buildStatus = buildStatus;
+	}
+
+	public String getTimeTaken() {
+		return timeTaken;
+	}
+
+	public void setTimeTaken(String timeTaken) {
+		this.timeTaken = timeTaken;
+	}
+
+	public int getBuildNumber() {
+		return buildNumber;
+	}
+
+	public void setBuildNumber(int buildNumber) {
+		this.buildNumber = buildNumber;
 	}
 
 }
