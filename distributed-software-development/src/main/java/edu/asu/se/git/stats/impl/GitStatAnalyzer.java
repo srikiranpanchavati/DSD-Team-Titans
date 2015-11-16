@@ -1,6 +1,8 @@
 package edu.asu.se.git.stats.impl;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -23,10 +25,12 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
+import edu.asu.se.dao.CodeStatsDAO;
 import edu.asu.se.dao.FileActivityDAO;
 import edu.asu.se.dao.UserActivityDAO;
 import edu.asu.se.git.stats.GitJobs;
 import edu.asu.se.model.BranchDetails;
+import edu.asu.se.model.CodeStatistics;
 import edu.asu.se.model.FileActivityDetails;
 import edu.asu.se.model.GitProjectDetails;
 import edu.asu.se.model.UserActivityDetails;
@@ -40,22 +44,104 @@ public class GitStatAnalyzer implements GitJobs {
 
 	@Autowired
 	FileActivityDAO fileActivityDAO;
-	
+
 	@Autowired
 	UserActivityDAO userActivityDAO;
+	
+	@Autowired
+	CodeStatsDAO codeStatsDAO;
 
 	@Override
 	public void gitResult(String projectName, String branchName) {
-		String filePath = env.getProperty("DSLJobWSPath") + "/" + projectName.replaceAll("/", "-") + "-" + branchName
-				+ "/.git";
+		String gitFilePath = env.getProperty("DSLJobWSPath") + "/workspace/" + projectName.replaceAll("/", "-") + "-"
+				+ branchName + "/.git";
+		String buildLogFilePath = env.getProperty("DSLJobWSPath") + "/jobs/" + projectName.replaceAll("/", "-") + "-"
+				+ branchName;
 		FileRepositoryBuilder builder = new FileRepositoryBuilder();
 		try {
-			Repository repository = builder.setGitDir(new File(filePath)).readEnvironment().findGitDir().build();
+			Repository repository = builder.setGitDir(new File(gitFilePath)).readEnvironment().findGitDir().build();
 			listRepositoryContents(repository, projectName, branchName);
 			repository.close();
+			getBuildLogContents(buildLogFilePath, projectName, branchName);
 		} catch (Exception e) {
-
+			e.printStackTrace();
 		}
+	}
+
+	private void getBuildLogContents(String buildLogFilePath, String projectName, String branchName)
+			throws IOException {
+		BufferedReader buildNumberData = null;
+		BufferedReader logData = null;
+		BufferedReader changeLogData = null;
+		BufferedReader pollingLogData = null;
+
+		String sCurrentLine;
+		String bulidNumberFile = buildLogFilePath + "/nextBuildNumber";
+		buildNumberData = new BufferedReader(new FileReader(bulidNumberFile));
+		
+		if ((sCurrentLine = buildNumberData.readLine()) != null) {
+			CodeStatistics codeStatistics = new CodeStatistics();
+			codeStatistics.setProjName(projectName);
+			codeStatistics.setBranchName(branchName);
+			int buildFolderName = Integer.parseInt(sCurrentLine) - 1;
+			codeStatistics.setBuildNumber(buildFolderName);
+			String logFile = buildLogFilePath + "/builds/" + buildFolderName + "/log";
+			logData = new BufferedReader(new FileReader(logFile));
+			while ((sCurrentLine = logData.readLine()) != null) {
+				if (sCurrentLine.contains("[INFO] Total time:")) {
+					codeStatistics.setTimeTaken(sCurrentLine.substring((sCurrentLine.indexOf(":") + 2)));
+				}
+				if (sCurrentLine.contains("[INFO]") && sCurrentLine.contains("errors")) {
+					String compliationError = sCurrentLine.substring(sCurrentLine.indexOf("errors") - 2,
+							sCurrentLine.indexOf("errors") - 1);
+					compliationError = compliationError != null ? compliationError : "0";
+					codeStatistics.setCompilationErrors(Integer.parseInt(compliationError));
+				}
+				if (sCurrentLine.contains("Finished:")) {
+					codeStatistics.setBuildStatus(sCurrentLine.substring(sCurrentLine.indexOf(" ") + 1));
+				}
+			}
+
+			String changeLogFile = buildLogFilePath + "/builds/" + buildFolderName + "/changelog.xml";
+			changeLogData = new BufferedReader(new FileReader(changeLogFile));
+			while ((sCurrentLine = changeLogData.readLine()) != null) {
+				if (sCurrentLine.contains("committer")) {
+					int startIndex = 10;
+					int endIndex = sCurrentLine.indexOf("<") - 1;
+					codeStatistics.setTriggeredBy(sCurrentLine.substring(startIndex, endIndex));
+				}
+			}
+
+			String pollingLogFile = buildLogFilePath + "/builds/" + buildFolderName + "/polling.log";
+			pollingLogData = new BufferedReader(new FileReader(pollingLogFile));
+			while ((sCurrentLine = pollingLogData.readLine()) != null) {
+				if (sCurrentLine.contains("Started on")) {
+					int startIndex = 11;
+					codeStatistics.setBuildDate(sCurrentLine.substring(startIndex));
+				}
+				if (sCurrentLine.contains("Done. Took")) {
+					int startIndex = 11;
+					if (codeStatistics.getTimeTaken() == null)
+						codeStatistics.setTimeTaken(sCurrentLine.substring(startIndex));
+				}
+			}
+			if(codeStatistics.getTriggeredBy() == null)
+			{
+				codeStatistics.setTriggeredBy("N/A");
+			}
+			GitProjectDetails projectDetail = createProjectDetails(projectName, branchName);
+			codeStatsDAO.insertBuildActivityDetails(projectDetail, codeStatistics);
+			
+		}
+
+		if (buildNumberData != null)
+			buildNumberData.close();
+		if (logData != null)
+			logData.close();
+		if (changeLogData != null)
+			changeLogData.close();
+		if (pollingLogData != null)
+			pollingLogData.close();
 	}
 
 	private void listRepositoryContents(Repository repository, String projectName, String branchName)
@@ -65,8 +151,7 @@ public class GitStatAnalyzer implements GitJobs {
 		Git git = new Git(repository);
 		int count = 0;
 		List<Ref> call = git.branchList().setListMode(ListMode.ALL).call();
-		GitProjectDetails projectDetail = new GitProjectDetails();
-		projectDetail.setProjectName(projectName);
+		GitProjectDetails projectDetail = null;
 		for (Ref ref : call) {
 			Ref head = repository.getRef(ref.getName());
 			@SuppressWarnings("resource")
@@ -80,14 +165,8 @@ public class GitStatAnalyzer implements GitJobs {
 			int index = fullPath.lastIndexOf("/");
 			String currBranch = fullPath.substring(index + 1);
 
-			if (currBranch.equals(branchName)) {
-
-				List<BranchDetails> branches = new ArrayList<BranchDetails>();
-				BranchDetails branchDetail = new BranchDetails();
-				branchDetail.setBranchName(currBranch);
-				branches.add(branchDetail);
-				projectDetail.setBranchDetails(branches);
-
+			if (currBranch.equals(branchName)) {				
+				projectDetail = createProjectDetails(projectName, currBranch);
 				System.out.println("Having tree: " + tree + currBranch);
 
 				BranchDetails branch = new BranchDetails();
@@ -133,7 +212,6 @@ public class GitStatAnalyzer implements GitJobs {
 					fileActivityDAO.insertFileActivityDetails(projectDetail, fileDetail);
 
 				}
-				
 
 				for (Entry<String, Integer> each : hm.entrySet()) {
 					UserActivityDetails userDetail = new UserActivityDetails();
@@ -143,13 +221,26 @@ public class GitStatAnalyzer implements GitJobs {
 					userDetail.setCommitsMade(each.getValue());
 					userDetail.setStartDate(hstart.get(each.getKey()));
 					userActivityDAO.insertUserActivityDetails(projectDetail, userDetail);
-				}				
-				
+				}
+
 				hm.clear();
 				break;
 			}
 		}
+	}
+	
+	private GitProjectDetails createProjectDetails(String projectName, String branchName)
+	{
+		GitProjectDetails gitProjectDetails = new GitProjectDetails();
 
+		gitProjectDetails.setProjectName(projectName);
+		List<BranchDetails> branches = new ArrayList<BranchDetails>();
+		BranchDetails branchDetail = new BranchDetails();
+		branchDetail.setBranchName(branchName);
+		branches.add(branchDetail);
+		gitProjectDetails.setBranchDetails(branches);
+		
+		return gitProjectDetails;
 	}
 
 }
