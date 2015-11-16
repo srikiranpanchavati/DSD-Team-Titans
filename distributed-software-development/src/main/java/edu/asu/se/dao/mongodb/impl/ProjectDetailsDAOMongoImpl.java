@@ -14,6 +14,7 @@ import com.mongodb.DBObject;
 
 import edu.asu.se.dao.ProjectDetailsDAO;
 import edu.asu.se.dao.UserDAO;
+import edu.asu.se.model.BranchDetails;
 import edu.asu.se.model.GitProjectDetails;
 import edu.asu.se.model.User;
 
@@ -42,8 +43,9 @@ public class ProjectDetailsDAOMongoImpl implements ProjectDetailsDAO {
 
 	@Override
 	public void insertProjectDetails(String userName, GitProjectDetails gitProjectDetails) {
+		BranchDetails inputBranch = gitProjectDetails.getBranchDetails().get(0);
 		if (gitProjectDetails.getProjectName() != "" && gitProjectDetails.getProjectUrl() != ""
-				&& gitProjectDetails.getBranchDetails().get(0).getBranchName() != "") {
+				&& inputBranch.getBranchName() != "") {
 			User user = userDAO.findUserByName(userName);
 			GitProjectDetails availableProject = null;
 			Query query = null;
@@ -59,7 +61,22 @@ public class ProjectDetailsDAOMongoImpl implements ProjectDetailsDAO {
 			} else {
 				gitProjectDetails.setId(availableProject.getId());
 				if (getBranchDetails(gitProjectDetails).getBranchDetails() == null) {
-					availableProject.getBranchDetails().add(gitProjectDetails.getBranchDetails().get(0));
+					availableProject.getBranchDetails().add(inputBranch);
+					mongoTemplate.save(availableProject, "projectDetails");
+				} else {
+					for (BranchDetails branchDetail : availableProject.getBranchDetails()) {
+						if (branchDetail.getBranchName().equals(inputBranch.getBranchName())) {
+							if (branchDetail.getApplUsers() != null) {
+								branchDetail.getApplUsers().add(inputBranch.getLastAppUser());
+								break;
+							} else {
+								List<String> applUsers = new ArrayList<String>();
+								applUsers.add(inputBranch.getLastAppUser());
+								branchDetail.setApplUsers(applUsers);
+								break;
+							}
+						}
+					}
 					mongoTemplate.save(availableProject, "projectDetails");
 				}
 				projectId = availableProject.getId();
@@ -71,9 +88,7 @@ public class ProjectDetailsDAOMongoImpl implements ProjectDetailsDAO {
 					user.getProjects().add(projectId);
 					mongoTemplate.save(user, USER_COLLECTION);
 				}
-			}
-			else
-			{
+			} else {
 				List<String> projects = new ArrayList<String>();
 				projects.add(projectId);
 				user.setProjects(projects);
@@ -96,11 +111,9 @@ public class ProjectDetailsDAOMongoImpl implements ProjectDetailsDAO {
 		query.put("branchDetails.branchName", details.getBranchDetails().get(0).getBranchName());
 
 		DBObject result = mongoTemplate.getCollection(PROJECTDETAILS_COLLECTION).findOne(query, idCriteria);
-		if(result != null)
-		{
-		return mongoTemplate.getConverter().read(GitProjectDetails.class, result);
-		}
-		else
+		if (result != null) {
+			return mongoTemplate.getConverter().read(GitProjectDetails.class, result);
+		} else
 			return new GitProjectDetails();
 
 	}
