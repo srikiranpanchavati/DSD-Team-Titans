@@ -8,6 +8,8 @@ import org.springframework.data.annotation.Id;
 public class FileActivityDetails {
 	@Id
 	private String id;
+	private String projName;
+	private String branchName;
 	private String fileName;
 	private String filePath;
 	private Date createdDate;
@@ -78,5 +80,21 @@ public class FileActivityDetails {
 
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	public String getProjName() {
+		return projName;
+	}
+
+	public void setProjName(String projName) {
+		this.projName = projName;
+	}
+
+	public String getBranchName() {
+		return branchName;
+	}
+
+	public void setBranchName(String branchName) {
+		this.branchName = branchName;
 	}
 }
