@@ -8,6 +8,8 @@ public class UserActivityDetails {
 
 	@Id
 	private String id;
+	private String projName;
+	private String branchName;
 	private String userName;
 	private int onlineTime;
 	private Date startDate;
@@ -69,6 +71,22 @@ public class UserActivityDetails {
 
 	public void setUserName(String userName) {
 		this.userName = userName;
+	}
+
+	public String getProjName() {
+		return projName;
+	}
+
+	public void setProjName(String projName) {
+		this.projName = projName;
+	}
+
+	public String getBranchName() {
+		return branchName;
+	}
+
+	public void setBranchName(String branchName) {
+		this.branchName = branchName;
 	}
 
 }
