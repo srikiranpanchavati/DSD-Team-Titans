@@ -13,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 import edu.asu.se.common.CommonInfo;
 import edu.asu.se.dao.ProjectDetailsDAO;
 import edu.asu.se.git.stats.GitJobs;
+import edu.asu.se.model.BranchDetails;
 import edu.asu.se.model.GitProjectDetails;
 import edu.asu.se.service.jenkins.JenkinsJobConfigurer;
 
@@ -49,6 +50,20 @@ public class ProfileController {
 		ModelAndView model = getProfileDetails(projectDetails);
 		gitJobs.gitResult(projectName, projectDetails.getBranchDetails().get(0).getBranchName());
 		return model;
+	}
+	
+	@RequestMapping(value = "/updateprofile**", method = RequestMethod.POST)
+	public String UpdateAllStatistics() {
+		String userName = CommonInfo.getUserName();
+		List<GitProjectDetails> projectDetailsList = projectDetailsDAO.getProjectDetails(userName);
+		for (GitProjectDetails gitProjectDetail : projectDetailsList) {
+			for (BranchDetails branchDetail : gitProjectDetail.getBranchDetails()) {
+				if(branchDetail.getApplUsers().contains(userName)){
+					gitJobs.gitResult(gitProjectDetail.getProjectName(), branchDetail.getBranchName());
+				}
+			}
+		}
+		return "redirect:/profile";
 	}
 
 	public ModelAndView getProfileDetails(GitProjectDetails projectDetails) {
