@@ -1,21 +1,18 @@
 package edu.asu.se.model;
 
+import org.springframework.data.annotation.Id;
+
 public class CodeStatistics {
-	private String buildName;
+	@Id
+	private String id;
+	private String projName;
+	private String branchName;
+	private int buildNumber;
 	private String buildDate;
 	private String triggeredBy;
-	private int locChanged;
+	private String timeTaken;
 	private int compilationErrors;
-	private int buildErrors;
-	private int complexity;
-
-	public String getBuildName() {
-		return buildName;
-	}
-
-	public void setBuildName(String buildName) {
-		this.buildName = buildName;
-	}
+	private String buildStatus;
 
 	public String getBuildDate() {
 		return buildDate;
@@ -33,14 +30,6 @@ public class CodeStatistics {
 		this.triggeredBy = triggeredBy;
 	}
 
-	public int getLocChanged() {
-		return locChanged;
-	}
-
-	public void setLocChanged(int locChanged) {
-		this.locChanged = locChanged;
-	}
-
 	public int getCompilationErrors() {
 		return compilationErrors;
 	}
@@ -49,19 +38,52 @@ public class CodeStatistics {
 		this.compilationErrors = compilationErrors;
 	}
 
-	public int getBuildErrors() {
-		return buildErrors;
+	public String getId() {
+		return id;
 	}
 
-	public void setBuildErrors(int buildErrors) {
-		this.buildErrors = buildErrors;
+	public void setId(String id) {
+		this.id = id;
 	}
 
-	public int getComplexity() {
-		return complexity;
+	public String getProjName() {
+		return projName;
 	}
 
-	public void setComplexity(int complexity) {
-		this.complexity = complexity;
+	public void setProjName(String projName) {
+		this.projName = projName;
 	}
+
+	public String getBranchName() {
+		return branchName;
+	}
+
+	public void setBranchName(String branchName) {
+		this.branchName = branchName;
+	}
+
+	public String getBuildStatus() {
+		return buildStatus;
+	}
+
+	public void setBuildStatus(String buildStatus) {
+		this.buildStatus = buildStatus;
+	}
+
+	public String getTimeTaken() {
+		return timeTaken;
+	}
+
+	public void setTimeTaken(String timeTaken) {
+		this.timeTaken = timeTaken;
+	}
+
+	public int getBuildNumber() {
+		return buildNumber;
+	}
+
+	public void setBuildNumber(int buildNumber) {
+		this.buildNumber = buildNumber;
+	}
+
 }

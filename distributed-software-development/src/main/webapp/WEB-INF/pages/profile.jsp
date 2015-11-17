@@ -109,7 +109,9 @@
 		<input type="hidden" name="${_csrf.parameterName}"
 			value="${_csrf.token}" />
 	</form>
-	
+	<form:form class="form-inline" method = "post" action="updateprofile">
+		<button type="submit" class="btn btn-default" name="update" id="submit1">Update All Statistics</button>
+	</form:form>
 	<!-- Github Projects -->
 	<section  id="links" style ='background-color: #EFFBFB'>
         <div class="container">
@@ -127,22 +129,31 @@
 					      </tr>
 					    </thead>
 				 	<tbody>
+				 	<c:if test = "${projectDetails != null}">
 				    <c:forEach var="details" items="${projectDetails}">
-				    	<c:forEach var ="branch_details" items="${details.branchDetails}">				    		    	
-					    	<c:if test="${details.projectName != null}" >					    		
+				    	<c:forEach var ="branch_details" items="${details.branchDetails}">	
+				    	<c:set var="contains" value="false" />
+							<c:forEach var="item" items="${branch_details.applUsers}">
+							  <c:if test="${item eq pageContext.request.userPrincipal.name}">
+							    <c:set var="contains" value="true" />
+							  </c:if>
+							</c:forEach>			    		    	
+					    	<c:if test="${details.projectName != null && contains}" >					    		
 						    		<tr>						    		
 							    		<td>${details.projectName}</td>
 							    		<td><a target="_blank" href="${details.projectUrl}">${details.projectUrl}</a></td>
 							    		<td>${branch_details.branchName}</td>  
 							    		<form:form action="statistics" method="post" id="viewStatisticsForm">
 							    			<input type ="hidden" name="id" value = "${details.id}"/>
+							    			<input type ="hidden" name="projectName" value ="${details.projectName}"/>
 							    			<input type ="hidden" name="branchDetails[0].branchName" value ="${branch_details.branchName}"/>
-									    	<td><button type = "submit" class="btn btn-default">test</button> </td>
+									    	<td><button type = "submit" class="btn btn-default">View Stats</button> </td>
 									     </form:form>			   							    		
 						    		</tr>						   
 					    	</c:if>			    	
 				    	</c:forEach>
 				    </c:forEach>
+				    </c:if>
 				  	</tbody>
 				  	</table>
 				  	<!-- Addition of Projects -->
@@ -152,12 +163,13 @@
   						<div class="form-group">
   							<input type="hidden" class="form-control" name="${_csrf.parameterName}"
 							value="${_csrf.token}" />
-  							<label for="proname">Project Name: </label>
-  							<input type="text" class="form-control" name="projectName" placeholder="Sample Project">  							
+  							<label for="proname">POM XML Path: </label>
+  							<input type="text" class="form-control" name="rootPOMLoc" placeholder="POM XML Path"> 						
   							<label for="proname">Branch Name: </label>
   							<input type="text" class="form-control" name="branchDetails[0].branchName" placeholder="master">
 						    <label for="githuburl">Git hub URL: </label>
 						    <input type="url" class="form-control" name="projectUrl" placeholder="http://github.com/dummy">
+						    <input type="hidden" class="form-control" name="branchDetails[0].lastAppUser" value="${pageContext.request.userPrincipal.name}">
 						    <button type="submit" class="btn btn-default" name="update" id="submit1">add</button>
 						</div>
 					</form>

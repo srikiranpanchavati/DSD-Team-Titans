@@ -74,47 +74,23 @@
             <div class="row">
                 <div class="col-lg-12 col-md-6 text-center">
                     <h3 class="section-heading text-center">User Statistics</h3>
-                    <hr class="light">                    
+                    <hr class="light">                                        
                     <table class="table table-hover" id="usertable">
 				    	<thead>
 					      <tr>
 					        <th>User Name</th>
 					        <th>Number of Commits</th>
-					        <th>Online Time</th>
-					        <th>Start Date</th>
+					        <th>Last Active</th>
 					      </tr>
 					    </thead>					    
 					    <tbody>
-					    	<tr>
-						        <td>Kiran</td>
-						        <td>23</td>
-						        <td>32.0 Hrs</td>
-						        <td>22-Sep-2015</td>					        
-					      	</tr>
-					      	<tr>
-						        <td>Supraj</td>
-						        <td>20</td>
-						        <td>32.0 hrs</td>
-						        <td>22-Sep-2015</td>				        
-					      	</tr>
-					      	<tr>
-						        <td>Rathnakar</td>
-						        <td>18</td>
-						        <td>30.04 Hrs</td>
-						        <td>23-Sep-2015</td>				        
-					      	</tr>
-					      	<tr>
-						        <td>Yoga</td>
-						        <td>18</td>
-						        <td>30.0 Hrs</td>
-						        <td>23-Sep-2015</td>				        
-					      	</tr>
-					      	<tr>
-						        <td>Nithya</td>
-						        <td>18</td>
-						        <td>30.0 Hrs</td>
-						        <td>23-Sep-2015</td>				        
-					      	</tr>
+					    	<c:forEach var="userDetail" items="${userDetails}">
+						    	<tr>
+							        <td>${userDetail.userName}</td>
+							        <td>${userDetail.commitsMade}</td>
+							        <td>${userDetail.startDate}</td>					        
+						      	</tr>
+					      	</c:forEach>					      	
 					    </tbody>					      
 				  	</table>
 				</div>
@@ -128,63 +104,32 @@
             	<div class="col-lg-12 col-md-6 text-center"> 
             		<h3 class="section-heading text-center">File statistics</h3>
             	</div>
-                <div class="col-lg-8 col-lg-offset-2">                    
-                    <hr class="light">  
-                    <table class="table table-hover" id="files">
-                    	 <tbody>
-                    	 	<tr>
-                    	 		<td>Total Number of commits</td>
-                    	 		<td>10</td>
-                    	 	</tr>
-                    	 	<tr>
-                    	 		<td>Last Committed by</td>
-                    	 		<td>test_user</td>
-                    	 	</tr>
-                    	 	<tr>
-                    	 		<td>Lines of Code changed since last commit</td>
-                    	 		<td>1234</td>
-                    	 	</tr>
-					    </tbody>
-                    </table>
-                 </div> 
-	                  <div class="col-lg-12 col-md-6 text-center">           
-	                   <table class="table table-hover" id="filesperuser">
+                <div class="col-lg-12 ">                    
+                    <hr class="light">
+		                    
+				    <table class="table table-hover" id="buildtable">
 				    	<thead>
 					      <tr>
-					        <th>User Name</th>
-					        <th>Online Time</th>
-					        <th>Duration of work</th>
-					        <th>Commits made</th>
+					        <th>File Path</th>
+					        <th>File Name</th>
+					        <th>Created Date</th>
+					        <th>Total Commits</th>
+					        <th>Last Committed By</th>					        
 					      </tr>
 					    </thead>					    
 					    <tbody>
-					    	<tr>
-						        <td>Rathnakar</td>
-						        <td>10 hrs</td>
-						        <td>25 hrs</td>
-						        <td>9</td>				        
-					      	</tr>
-					      	<tr>
-						        <td>Yoga</td>
-						        <td>8 hrs</td>
-						        <td>18 hrs</td>
-						        <td>8</td>				        
-					      	</tr>
-					      	<tr>
-						        <td>Nithya</td>
-						        <td>9 hrs</td>
-						        <td>19 hrs</td>
-						        <td>7</td>					        
-					      	</tr>
-					      	<tr>
-						        <td>Supraj</td>
-						        <td>10 hrs</td>
-						        <td>20 hrs</td>
-						        <td>9</td>				        
-					      	</tr>
+					    	<c:forEach var="fileDetail" items="${fileDetails}">
+						    	<tr>					    	
+							        <td>${fileDetail.filePath}</td>
+							        <td>${fileDetail.fileName}</td>
+							        <td>${fileDetail.createdDate}</td>
+							        <td>${fileDetail.commits}</td>
+							        <td>${fileDetail.lastCommittedBy}</td>				        
+						      	</tr>	
+					      	</c:forEach>					      	
 					    </tbody>					      
-				  	</table>
-			  	</div>
+			  		</table>                   
+                 </div> 
 			</div>
         </div>
     </section>
@@ -199,34 +144,24 @@
 				    	<thead>
 					      <tr>
 					        <th>Build Number</th>
+					        <th>Build Time</th>
 					        <th>Triggered By</th>
-					        <th>Lines of Code changed</th>
-					        <th>Build Errors</th>
-					        <th>Compilation Errors</th>					        
+					        <th>Time Taken</th>
+					        <th>Compilation Errors</th>
+					        <th>Build Status</th>					        
 					      </tr>
 					    </thead>					    
 					    <tbody>
-					    	<tr>
-						        <td>build1</td>
-						        <td>Nithya</td>
-						        <td>323</td>
-						        <td>1</td>
-						        <td>1</td>					        
-					      	</tr>
-					      	<tr>
-						        <td>build2</td>
-						        <td>Supraj</td>
-						        <td>534</td>
-						        <td>0</td>
-						        <td>0</td>					        
-					      	</tr>
-					      	<tr>
-						        <td>build3</td>
-						        <td>Kiran</td>
-						        <td>320</td>
-						        <td>0</td>
-						        <td>0</td>					        
-					      	</tr>
+					    	<c:forEach var="codeStat" items="${codeStats}">
+						    	<tr>					    	
+							        <td>${codeStat.buildNumber}</td>
+							        <td>${codeStat.buildDate}</td>
+							        <td>${codeStat.triggeredBy}</td>
+							        <td>${codeStat.timeTaken}</td>
+							        <td>${codeStat.compilationErrors}</td>
+							        <td>${codeStat.buildStatus}</td>					        
+						      	</tr>	
+					      	</c:forEach>					      	
 					    </tbody>					      
 				  	</table>
 				</div>

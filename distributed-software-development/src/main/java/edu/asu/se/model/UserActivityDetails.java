@@ -1,13 +1,18 @@
 package edu.asu.se.model;
 
+import java.util.Date;
+
 import org.springframework.data.annotation.Id;
 
 public class UserActivityDetails {
 
 	@Id
 	private String id;
+	private String projName;
+	private String branchName;
+	private String userName;
 	private int onlineTime;
-	private String startDate;
+	private Date startDate;
 	private int commitsMade;
 	private int loc;
 	private int buildbreaks;
@@ -28,11 +33,11 @@ public class UserActivityDetails {
 		this.onlineTime = onlineTime;
 	}
 
-	public String getStartDate() {
+	public Date getStartDate() {
 		return startDate;
 	}
 
-	public void setStartDate(String startDate) {
+	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
 	}
 
@@ -58,6 +63,30 @@ public class UserActivityDetails {
 
 	public void setBuildbreaks(int buildbreaks) {
 		this.buildbreaks = buildbreaks;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public String getProjName() {
+		return projName;
+	}
+
+	public void setProjName(String projName) {
+		this.projName = projName;
+	}
+
+	public String getBranchName() {
+		return branchName;
+	}
+
+	public void setBranchName(String branchName) {
+		this.branchName = branchName;
 	}
 
 }
