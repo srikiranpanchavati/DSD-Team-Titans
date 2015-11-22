@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
  *
  */
 public class CommonInfo {
+	hh
 
 	/**
 	 * This method will return the user name of the logged in user
